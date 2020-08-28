@@ -3,7 +3,6 @@ public class Driver
 
     public static void main(String[] args) 
     {
-        // write your code here
         // Class details:
         // Plant: int speciesID, float x, y, z, height, canopyRadius
         // ElevationGrid: int dimX, dimY, float gridSpacing, latitude, float[][] grid
@@ -17,8 +16,7 @@ public class Driver
 
     private static String[] findFiles(String path)
     {
-        //Temporary List
-        //TODO: Find files in a directory
-        return new String[]{"./data/S2000-2000-512.elv"};
+        //TODO: Find files in a directory: will retrieve list of files in specified path and order them as *.elv -> *.pdb -> *.spc
+        return new String[]{"./data/S2000-2000-512.elv", "./data/S2000-2000-512_canopy.pdb", "./data/S2000-2000-512_undergrowth.pdb", "./data/S2000-2000-512.spc"}; //Temporary List
     }
 }
