@@ -6,8 +6,6 @@ public class Species
     private String commonName, latinName;
 
     //Constructors
-    public Species(){}
-
     public Species(int id, float min, float max, float hRatio, int num)
     {
         speciesID = id;
@@ -31,8 +29,7 @@ public class Species
     public void setMinHeight(int min){minHeight = min;}
     public void setMaxHeight(int max){maxHeight = max;}
     public void setHeightRatio(int hRatio){heightRatio = hRatio;}
-    public void setCommonName(String n){commonName = n;}
-    public void setLatinName(String n){latinName = n;}
+    public void setName(String com, String lat){commonName = com; latinName = lat;}
 
 
     //To String for debugging

@@ -42,6 +42,12 @@ public class Driver
                 System.exit(1);
             }
         }
+
+        System.out.println(canopySpecies);
+        System.out.println(undergrowthSpecies);
+        //System.out.println(canopyPlants);
+        //System.out.println(undergrowthPlants);
+        //System.out.println(elevationGrid);
     }
 
     private static void readSpc(String fileName)
@@ -49,7 +55,19 @@ public class Driver
         try
         {
             Scanner f = new Scanner(new File((fileName)));
+            while(f.hasNextLine())
+            {
+                Scanner line = new Scanner(f.nextLine());
+                line.useDelimiter(" “");
+                int speciesId = line.nextInt();
+                String commonName = line.next().replace("”", "");
+                String latinName = line.next().replace("”", "");
 
+                if(canopySpecies.containsKey(speciesId))
+                    canopySpecies.get(speciesId).setName(commonName,latinName);
+                if(undergrowthSpecies.containsKey(speciesId))
+                    undergrowthSpecies.get(speciesId).setName(commonName,latinName);
+            }
             f.close();
         }
         catch (FileNotFoundException e)
@@ -101,8 +119,6 @@ public class Driver
                 }
             }
 
-            // System.out.println(canopySpecies);
-            // System.out.println(canopyPlants);
             line.close();
             f.close();
         }
@@ -133,7 +149,6 @@ public class Driver
                     elevationGrid.setElevation(x,y,elevation);
                 }
             }
-            //System.out.println(elevationGrid);
             line.close();
             f.close();
         }
@@ -146,6 +161,7 @@ public class Driver
     //Returns list of files in a directory
     private static File[] findFiles(String path)
     {
+        //TODO: Order files so .spc is last read. Temporary fix: rename .spc file so it appears last when directory is ordered alphabetical
         File f = new File(path);
         return f.listFiles();
         //return new String[]{"./data/S2000-2000-512.elv", "./data/S2000-2000-512_canopy.pdb", "./data/S2000-2000-512_undergrowth.pdb", "./data/S2000-2000-512.spc"}; //Temporary List
