@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class ElevationGrid
 {
     //Class Variables
@@ -21,4 +23,24 @@ public class ElevationGrid
     public float getLatitude(){return latitude;}
 
     public void setElevation(int x, int y, float elevation){grid[x][y] = elevation;}
+
+    @Override
+    public String toString() {
+        String temp = "ElevationGrid " +
+                "dimX=" + dimX +
+                ", dimY=" + dimY +
+                ", gridSpacing=" + gridSpacing +
+                ", latitude=" + latitude +
+                ", grid:\n";
+
+        for(int x = 0; x < dimX; x++)
+        {
+            for(int y = 0; y < dimY; y++)
+            {
+                temp += "("+x+","+y+")="+grid[x][y]+" ";
+            }
+            temp += "\n";
+        }
+        return temp;
+    }
 }
