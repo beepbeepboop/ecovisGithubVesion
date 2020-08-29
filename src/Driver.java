@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class Driver
 {
@@ -16,15 +17,15 @@ public class Driver
 
         //Get array of files
         String path = "./data/";
-        String[] fileArray = findFiles(path);
-        for(String fileName : fileArray)
+        File[] fileArray = findFiles(path);
+        for(File fileName : fileArray)
         {
             System.out.println("Reading file: " + fileName);
-            if(fileName.contains(".elv"))
+            if(fileName.getName().contains(".elv"))
                 readElv(fileName);
-            else if(fileName.contains(".pdb"))
+            else if(fileName.getName().contains(".pdb"))
                 readPdb(fileName);
-            else if(fileName.contains(".spc"))
+            else if(fileName.getName().contains(".spc"))
                 readSpc(fileName);
             else
             {
@@ -34,11 +35,13 @@ public class Driver
         }
     }
 
-    private static void readSpc(String fileName)
+    private static void readSpc(File fileName)
     {
         try
         {
-            Scanner f = new Scanner(new File((fileName)));
+            Scanner f = new Scanner(fileName);
+
+            f.close();
         }
         catch (FileNotFoundException e)
         {
@@ -46,11 +49,13 @@ public class Driver
         }
     }
 
-    private static void readPdb(String fileName)
+    private static void readPdb(File fileName)
     {
         try
         {
-            Scanner f = new Scanner(new File((fileName)));
+            Scanner f = new Scanner(fileName);
+
+            f.close();
         }
         catch (FileNotFoundException e)
         {
@@ -58,12 +63,13 @@ public class Driver
         }
     }
 
-    private static void readElv(String fileName)
+    private static ElevationGrid readElv(File fileName)
     {
         try
         {
-            Scanner f = new Scanner(new File((fileName)));
-            Scanner line = new Scanner(f.nextLine());
+            Scanner f = new Scanner(fileName);
+            //Set the locale to US, Scanner was having trouble with using '.' instead of ',' for decimals
+            Scanner line = new Scanner(f.nextLine()).useLocale(Locale.US);
             int dimX = line.nextInt();
             int dimY = line.nextInt();
             float gridSpacing = line.nextFloat();
@@ -72,24 +78,29 @@ public class Driver
             float elevation;
             for(int x = 0; x < dimX; x++)
             {
-                line = new Scanner(f.nextLine());
+                System.out.println();
+                line = new Scanner(f.nextLine()).useLocale(Locale.US);
                 for(int y = 0; y < dimY; y++)
                 {
                     elevation = line.nextFloat();
                     elevationGrid.setElevation(x,y,elevation);
                 }
             }
-            System.out.println(elevationGrid);
+            //System.out.println(elevationGrid);//Editing this out for now because it takes poes long to print
+            f.close();
         }
         catch (FileNotFoundException e)
         {
             System.out.println(e);
         }
+        return elevationGrid;
     }
 
-    private static String[] findFiles(String path)
+    //Returns list of files in a directory
+    private static File[] findFiles(String path)
     {
-        //TODO: Find files in a directory: will retrieve list of files in specified path and order them as *.elv -> *.pdb -> *.spc
-        return new String[]{"./data/S2000-2000-512.elv", "./data/S2000-2000-512_canopy.pdb", "./data/S2000-2000-512_undergrowth.pdb", "./data/S2000-2000-512.spc"}; //Temporary List
+        File f = new File(path);
+        return f.listFiles();
+        //return new File[]{"./data/S2000-2000-512.elv", "./data/S2000-2000-512_canopy.pdb", "./data/S2000-2000-512_undergrowth.pdb", "./data/S2000-2000-512.spc"}; //Temporary List
     }
 }
