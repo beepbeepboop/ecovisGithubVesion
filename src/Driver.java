@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class Driver
 {
@@ -24,16 +25,16 @@ public class Driver
 
         //Get array of files
         String path = "./data/";
-        String[] fileArray = findFiles(path);
-        for(String fileName : fileArray)
+        File[] fileArray = findFiles(path);
+        for(File fileName : fileArray)
         {
             System.out.println("Reading file: " + fileName);
-            if(fileName.contains(".elv"))
-                readElv(fileName);
-            else if(fileName.contains(".pdb"))
-                readPdb(fileName);
-            else if(fileName.contains(".spc"))
-                readSpc(fileName);
+            if(fileName.getName().contains(".elv"))
+                readElv(fileName.getName());
+            else if(fileName.getName().contains(".pdb"))
+                readPdb(fileName.getName());
+            else if(fileName.getName().contains(".spc"))
+                readSpc(fileName.getName());
             else
             {
                 System.out.println("Error: Unrecognisable file type");
@@ -47,6 +48,8 @@ public class Driver
         try
         {
             Scanner f = new Scanner(new File((fileName)));
+
+            f.close();
         }
         catch (FileNotFoundException e)
         {
@@ -99,6 +102,8 @@ public class Driver
 
             // System.out.println(canopySpecies);
             // System.out.println(canopyPlants);
+            line.close();
+            f.close();
         }
         catch (FileNotFoundException e)
         {
@@ -128,6 +133,8 @@ public class Driver
                 }
             }
             //System.out.println(elevationGrid);
+            line.close();
+            f.close();
         }
         catch (FileNotFoundException e)
         {
@@ -135,9 +142,11 @@ public class Driver
         }
     }
 
-    private static String[] findFiles(String path)
+    //Returns list of files in a directory
+    private static File[] findFiles(String path)
     {
-        //TODO: Find files in a directory: will retrieve list of files in specified path and order them as *.elv -> *.pdb -> *.spc
-        return new String[]{"./data/S6000-6000-256.elv", "./data/S6000-6000-256_canopy.pdb", "./data/S6000-6000-256_undergrowth.pdb", "./data/S6000-6000-256.spc"}; //Temporary List
+        File f = new File(path);
+        return f.listFiles();
+        //return new String[]{"./data/S2000-2000-512.elv", "./data/S2000-2000-512_canopy.pdb", "./data/S2000-2000-512_undergrowth.pdb", "./data/S2000-2000-512.spc"}; //Temporary List
     }
 }

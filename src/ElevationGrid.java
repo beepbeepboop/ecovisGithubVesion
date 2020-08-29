@@ -24,7 +24,7 @@ public class ElevationGrid
 
     public void setElevation(int x, int y, float elevation){grid[x][y] = elevation;}
 
-    @Override
+    
     public String toString() {
         String temp = "ElevationGrid " +
                 "dimX=" + dimX +
