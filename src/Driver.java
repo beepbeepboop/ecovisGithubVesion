@@ -12,7 +12,7 @@ public class Driver
     private static ElevationGrid elevationGrid; //Can't initialise just yet
     private static HashMap<Integer, Species> undergrowthSpecies = new HashMap<Integer,Species>(); //Links species by ID
     private static HashMap<Integer, Species> canopySpecies = new HashMap<Integer,Species>(); //Links species by ID
-    private static LinkedList<Plant> undergworthPlants = new LinkedList<Plant>();   //Contains a list of all Plants - order and indexing is irrelevant at current stage of code
+    private static LinkedList<Plant> undergrowthPlants = new LinkedList<Plant>();   //Contains a list of all Plants - order and indexing is irrelevant at current stage of code
     private static LinkedList<Plant> canopyPlants = new LinkedList<Plant>();   //Contains a list of all Plants - order and indexing is irrelevant at current stage of code
 
     public static void main(String[] args) 
@@ -26,15 +26,16 @@ public class Driver
         //Get array of files
         String path = "./data/";
         File[] fileArray = findFiles(path);
-        for(File fileName : fileArray)
+        for(File file : fileArray)
         {
+            String fileName = file.getPath();
             System.out.println("Reading file: " + fileName);
-            if(fileName.getName().contains(".elv"))
-                readElv(fileName.getName());
-            else if(fileName.getName().contains(".pdb"))
-                readPdb(fileName.getName());
-            else if(fileName.getName().contains(".spc"))
-                readSpc(fileName.getName());
+            if(fileName.contains(".elv"))
+                readElv(fileName);
+            else if(fileName.contains(".pdb"))
+                readPdb(fileName);
+            else if(fileName.contains(".spc"))
+                readSpc(fileName);
             else
             {
                 System.out.println("Error: Unrecognisable file type");
@@ -94,7 +95,7 @@ public class Driver
                     //Insert plant data into list
                     //Possible ordering involves Min/Max heap of plants ordered by their radial distance from origin
                     if(fileName.contains("undergrowth"))
-                        undergworthPlants.add(new Plant(speciesId,xPos,yPos,zPos,height,radius));
+                        undergrowthPlants.add(new Plant(speciesId,xPos,yPos,zPos,height,radius));
                     else
                         canopyPlants.add(new Plant(speciesId,xPos,yPos,zPos,height,radius));
                 }
