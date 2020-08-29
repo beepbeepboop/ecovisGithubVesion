@@ -32,4 +32,16 @@ public class Plant
     public void setZ(float zSet){z = zSet;}
     public void setHeight(float hSet){height = hSet;}
     public void setCanopyRadius(float crSet){canopyRadius = crSet;}
+
+
+    //To String for debugging
+    public String toString()
+    {
+        return new String(
+        "Plant Info:"+
+        "\nSpecies ID: "+speciesID+
+        "\nPosition: "+x+"x, "+y+"y, "+z+"z"+
+        "\nHeight: "+height+
+        "\nCanopy Radius: "+canopyRadius+"\n");
+    }
 }
