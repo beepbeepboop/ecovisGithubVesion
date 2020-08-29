@@ -1,10 +1,18 @@
+import sun.awt.image.ImageWatched;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Driver
 {
-    private static ElevationGrid elevationGrid;
+    private static ElevationGrid elevationGrid; //Can't initialise just yet
+    private static HashMap<Integer, Species> undergrowthSpecies = new HashMap<Integer,Species>(); //Links species by ID
+    private static HashMap<Integer, Species> canopySpecies = new HashMap<Integer,Species>(); //Links species by ID
+    private static LinkedList<Plant> undergworthPlants = new LinkedList<Plant>();   //Contains a list of all Plants - order and indexing is irrelevant at current stage of code
+    private static LinkedList<Plant> canopyPlants = new LinkedList<Plant>();   //Contains a list of all Plants - order and indexing is irrelevant at current stage of code
 
     public static void main(String[] args) 
     {
@@ -51,6 +59,46 @@ public class Driver
         try
         {
             Scanner f = new Scanner(new File((fileName)));
+            Scanner line = new Scanner(f.nextLine());
+            int numSpecies = line.nextInt();
+            int speciesId, numPlants;
+            float minHeight, maxHeight, heightRatio;
+            for(int i = 0; i < numSpecies; i++)
+            {
+                line = new Scanner(f.nextLine());
+                speciesId = line.nextInt();
+                minHeight = line.nextFloat();
+                maxHeight = line.nextFloat();
+                heightRatio = line.nextFloat();
+                line = new Scanner(f.nextLine());
+                numPlants = line.nextInt();
+
+                // Insert species data into hashMap - check for undergrowth or canopy
+                if(fileName.contains("canopy"))
+                    undergrowthSpecies.put(speciesId,new Species(speciesId,minHeight,maxHeight,heightRatio,numPlants));
+                else //Assumption that files will be named appropriately - all .pdb files will either be named canopy or undergrowth
+                    canopySpecies.put(speciesId,new Species(speciesId,minHeight,maxHeight,heightRatio,numPlants));
+
+                for(int j = 0; j < numPlants; j++)
+                {
+                    line = new Scanner(f.nextLine());
+                    float xPos = line.nextFloat();
+                    float yPos = line.nextFloat();
+                    float zPos = line.nextFloat();
+                    float height = line.nextFloat();
+                    float radius = line.nextFloat();
+
+                    //Insert plant data into list
+                    //Possible ordering involves Min/Max heap of plants ordered by their radial distance from origin
+                    if(fileName.contains("undergrowth"))
+                        undergworthPlants.add(new Plant(speciesId,xPos,yPos,zPos,height,radius));
+                    else
+                        canopyPlants.add(new Plant(speciesId,xPos,yPos,zPos,height,radius));
+                }
+            }
+
+            // System.out.println(canopySpecies);
+            // System.out.println(canopyPlants);
         }
         catch (FileNotFoundException e)
         {
@@ -79,7 +127,7 @@ public class Driver
                     elevationGrid.setElevation(x,y,elevation);
                 }
             }
-            System.out.println(elevationGrid);
+            //System.out.println(elevationGrid);
         }
         catch (FileNotFoundException e)
         {
@@ -90,6 +138,6 @@ public class Driver
     private static String[] findFiles(String path)
     {
         //TODO: Find files in a directory: will retrieve list of files in specified path and order them as *.elv -> *.pdb -> *.spc
-        return new String[]{"./data/S2000-2000-512.elv", "./data/S2000-2000-512_canopy.pdb", "./data/S2000-2000-512_undergrowth.pdb", "./data/S2000-2000-512.spc"}; //Temporary List
+        return new String[]{"./data/S6000-6000-256.elv", "./data/S6000-6000-256_canopy.pdb", "./data/S6000-6000-256_undergrowth.pdb", "./data/S6000-6000-256.spc"}; //Temporary List
     }
 }

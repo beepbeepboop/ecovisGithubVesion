@@ -8,15 +8,13 @@ public class Species
     //Constructors
     public Species(){}
 
-    public Species(int id, float min, float max, float hRatio, int num, String comm, String lat)
+    public Species(int id, float min, float max, float hRatio, int num)
     {
         speciesID = id;
         minHeight = min;
         maxHeight = max;
         heightRatio = hRatio;
         numPlants = num;
-        commonName = comm;
-        latinName = lat;
     }
 
     //Getters and Setters
@@ -44,8 +42,8 @@ public class Species
         "Species Info:"+
         "\nCommon Name: "+commonName+
         "\nLatin Name: "+latinName+
-        "\nNumber of this species: "+numPlants+
-        "\nMin & Max Height: "+minHeight+"Min, "+maxHeight+"Max"+
+        "\nNumber of plants in this species: "+numPlants+
+        "\nMin & Max Height: "+minHeight+" Min, "+maxHeight+" Max"+
         "\nCanopy to Height Ratio: "+heightRatio+"\n");
     }
 }
