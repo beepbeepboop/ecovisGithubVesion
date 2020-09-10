@@ -1,3 +1,4 @@
+
 public class Plant
 {
     //Class Variables
@@ -33,6 +34,12 @@ public class Plant
     public void setHeight(float hSet){height = hSet;}
     public void setCanopyRadius(float crSet){canopyRadius = crSet;}
 
+
+    public boolean equals(Plant p)
+    {
+        if(x == p.x){return true;}
+        return false;
+    }
 
     //To String for debugging
     public String toString()
