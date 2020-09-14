@@ -1,11 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner; import java.util.Locale;
-import java.util.Vector;
+import java.util.*;
 
 public class FileReader
 {
 	File undergrowthF, canopyF, elevationF, speciesF;
+
 	public FileReader(String path)
 	{
 		//Get FileNames for reading data
@@ -18,7 +18,7 @@ public class FileReader
 				elevationF = file;
 			else if(fileName.contains(".pdb"))
 			{
-				if(fileName.contains("undergrowth"))
+				if(fileName.contains("undergrowth"))	// Assumed appropriate naming
 					undergrowthF = file;
 				else
 					canopyF = file;
@@ -33,21 +33,25 @@ public class FileReader
 		}
 	}
 
-	//Read and return file data
-	public Vector<Plant> getUnderGrowth(){System.out.println("Reading Undergrowth File");return readPdb(undergrowthF);}
-	public Vector<Plant> getCanopy(){System.out.println("Reading Canopy File");return readPdb(canopyF);}
-	public Vector<Species> getSpecies(){System.out.println("Reading Species File");return readSpc(speciesF);}
-	public ElevationGrid getElvation(){System.out.println("Reading Elevation File");return readElv(elevationF);}
+	// Used for storing species data
+	private HashMap<Integer, Species> undergrowthSpecies = new HashMap<Integer, Species>();
+	private HashMap<Integer, Species> canopySpecies = new HashMap<Integer, Species>();
+
+	// Read and return file data
+	public LinkedList<Plant> getUndergrowthPlants(){System.out.println("Reading undergrowth plants file");return readPdb(undergrowthF);}
+	public LinkedList<Plant> getCanopyPlants(){System.out.println("Reading canopy plants file");return readPdb(canopyF);}
+	public HashMap<Integer, Species> getUndergrowthSpecies(){return undergrowthSpecies;}
+	public HashMap<Integer, Species> getCanopySpecies(){return canopySpecies;}
+	public ElevationGrid getElevation(){System.out.println("Reading Elevation File");return readElv(elevationF);}
 
 
-	//Returns a trimmed Vector of Species objects from a file
-	//Species: int speciesID, String commonName, String latinName
-	public Vector<Species> readSpc(File file)
+	// Reads species names and populates species data
+	public void readSpc()
 	{
-		Vector<Species> spc = new Vector<Species>();
+		HashMap<Integer, Species> spc = new HashMap<Integer, Species>();
 		try
 		{
-			Scanner f = new Scanner(file);
+			Scanner f = new Scanner(speciesF);
 			while(f.hasNextLine())
 			{
 				Scanner line = new Scanner(f.nextLine()).useLocale(Locale.US);
@@ -55,7 +59,10 @@ public class FileReader
 				int speciesId = line.nextInt();
 				String commonName = line.next().replace("”", "");
 				String latinName = line.next().replace("”", "");
-				spc.add(new Species(speciesId, commonName, latinName));
+				if(canopySpecies.containsKey(speciesId))
+					canopySpecies.get(speciesId).setName(commonName,latinName);
+				if(undergrowthSpecies.containsKey(speciesId))
+					undergrowthSpecies.get(speciesId).setName(commonName,latinName);
 			}
 			f.close();
 		}
@@ -63,16 +70,13 @@ public class FileReader
 		{
 			System.out.println(e);
 		}
-
-		spc.trimToSize();
-		return spc;
 	}
 
 	//Read in a plant file and retun a trimmed Vector of plants
 	//Plant: int speciesID, float x, y, z, height, canopyRadius
-	public Vector<Plant> readPdb(File file)
+	public LinkedList<Plant> readPdb(File file)
 	{
-		Vector<Plant> ret = new Vector<Plant>();
+		LinkedList<Plant> ret = new LinkedList<Plant>();
 
 		try
 		{    
@@ -80,13 +84,22 @@ public class FileReader
 			Scanner line = new Scanner(f.nextLine()).useLocale(Locale.US);
 			int numSpecies = line.nextInt();
 			int speciesId, numPlants;
-			//float minHeight, maxHeight, heightRatio;
+			float minHeight, maxHeight, heightRatio;
 			for(int i = 0; i < numSpecies; i++)
 			{
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
 				speciesId = line.nextInt();
+				minHeight = line.nextFloat();
+				maxHeight = line.nextFloat();
+				heightRatio = line.nextFloat();
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
 				numPlants = line.nextInt();
+
+				// Insert species data into hashMap - check for undergrowth or canopy
+				if(file.getName().contains("undergrowth"))
+					undergrowthSpecies.put(speciesId,new Species(speciesId,minHeight,maxHeight,heightRatio,numPlants));
+				else //Assumption that files will be named appropriately - all .pdb files will either be named canopy or undergrowth
+					canopySpecies.put(speciesId,new Species(speciesId,minHeight,maxHeight,heightRatio,numPlants));
 
 				for(int j = 0; j < numPlants; j++)
 				{
@@ -106,7 +119,6 @@ public class FileReader
 		{
 			System.out.println(e);
 		}
-		ret.trimToSize();
 		return ret;
 	}
 
