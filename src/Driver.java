@@ -1,3 +1,5 @@
+import javafx.application.Application;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -22,5 +24,7 @@ public class Driver
 		undergrowthSpecies = fr.getUndergrowthSpecies();
 
 		System.out.println(undergrowthSpecies);
+
+		Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
 	}
 }
