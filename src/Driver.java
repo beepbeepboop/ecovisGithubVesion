@@ -9,6 +9,8 @@ public class Driver
 	private static HashMap<Integer, Species> undergrowthSpecies;
 	private static LinkedList<Plant> undergrowthPlants;
 	private static LinkedList<Plant> canopyPlants;
+	private static FireModel fireModel;
+	private static PlantModel plantModel;
 
 	public static void main(String[] args) 
 	{
@@ -21,6 +23,9 @@ public class Driver
 		canopySpecies = fr.getCanopySpecies();
 		undergrowthSpecies = fr.getUndergrowthSpecies();
 
-		System.out.println(undergrowthSpecies);
+		//System.out.println(undergrowthSpecies);
+		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants);
+
+		System.out.println(canopyPlants);
 	}
 }

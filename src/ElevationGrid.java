@@ -19,6 +19,8 @@ public class ElevationGrid
     public float getElevation(int x, int y){return grid[x][y];}
     public float getGridSpacing(){return gridSpacing;}
     public float getLatitude(){return latitude;}
+    public int getDimX(){return dimX;}
+    public int getDimY(){return dimY;}
 
     public void setElevation(int x, int y, float elevation){grid[x][y] = elevation;}
 
