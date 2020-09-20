@@ -25,7 +25,7 @@ public class Driver
 
 		//System.out.println(undergrowthSpecies);
 		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants);
-
-		System.out.println(canopyPlants);
+		fireModel = new FireModel(plantModel);
+		System.out.println(fireModel);
 	}
 }

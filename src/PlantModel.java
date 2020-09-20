@@ -60,4 +60,9 @@ public class PlantModel
             plant.setYIndex(yIndex);
         }
     }
+
+    public LinkedList<Plant>[][] getGrid() { return grid; }
+    public int getDimX() { return dimX; }
+    public int getDimY() { return dimY; }
+    public float getGridSpacing() { return gridSpacing; }
 }
