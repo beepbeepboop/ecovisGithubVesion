@@ -26,6 +26,12 @@ public class Driver
 		//System.out.println(undergrowthSpecies);
 		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants);
 		fireModel = new FireModel(plantModel);
+		LinkedList<Coordinate> temp = new LinkedList<Coordinate>();
+		temp.add(new Coordinate(20,10));
+		temp.add(new Coordinate(200, 90));
+		temp.add(new Coordinate(12,53));
+		temp.add(new Coordinate(40,6));
+		fireModel.computeSpread(10, temp);
 		System.out.println(fireModel);
 	}
 }
