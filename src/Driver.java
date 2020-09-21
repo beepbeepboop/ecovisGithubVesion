@@ -24,6 +24,7 @@ public class Driver
 		undergrowthSpecies = fr.getUndergrowthSpecies();
 
 		System.out.println(undergrowthSpecies);
+		//System.out.println(elevationGrid);
 
 		Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
 	}
