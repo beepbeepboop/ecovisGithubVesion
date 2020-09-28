@@ -92,6 +92,21 @@ public class PlantModel
             return null;
     }
 
+    public int findSpeciesIdByName(String speciesName)
+    {
+        for(Species s : undergrowthSpecies.values())
+        {
+            if (s.getCommonName().equalsIgnoreCase(speciesName) || s.getLatinName().equalsIgnoreCase(speciesName))
+                return s.getSpeciesID();
+        }
+        for(Species s : canopySpecies.values())
+        {
+            if (s.getCommonName().equalsIgnoreCase(speciesName) || s.getLatinName().equalsIgnoreCase(speciesName))
+                return s.getSpeciesID();
+        }
+        return -1;
+    }
+
     public LinkedList<Plant>[][] getGrid() { return grid; }
     public int getDimX() { return dimX; }
     public int getDimY() { return dimY; }

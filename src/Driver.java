@@ -28,6 +28,8 @@ public class Driver
 
 		LinkedList<Coordinate> speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(3);
 		System.out.println(speciesLocation);
+		speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(plantModel.findSpeciesIdByName("Western Swordfern"));
+		System.out.println(speciesLocation);
 
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> temp = new LinkedList<Coordinate>();
