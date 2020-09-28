@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class PlantModel
@@ -5,15 +6,19 @@ public class PlantModel
     private ElevationGrid elevationGrid;
     private LinkedList<Plant> undergrowthPlantList;
     private LinkedList<Plant> canopyPlantList;
+    private static HashMap<Integer, Species> canopySpecies;
+    private static HashMap<Integer, Species> undergrowthSpecies;
     private LinkedList<Plant>[][] grid;
     private int dimX, dimY;
     private float gridSpacing;
 
-    public PlantModel(ElevationGrid elevGrid, LinkedList<Plant> undergrowthPlants, LinkedList<Plant> canopyPlants)
+    public PlantModel(ElevationGrid elevGrid, LinkedList<Plant> undergrowthPlants, LinkedList<Plant> canopyPlants, HashMap<Integer, Species> undergrowthSpecies, HashMap<Integer, Species> canopySpecies)
     {
         elevationGrid = elevGrid;
         undergrowthPlantList = undergrowthPlants;
         canopyPlantList = canopyPlants;
+        this.canopySpecies = canopySpecies;
+        this.undergrowthSpecies = undergrowthSpecies;
         dimX = elevationGrid.getDimX();
         dimY = elevationGrid.getDimY();
         grid = new LinkedList[dimX][dimY];
@@ -47,6 +52,8 @@ public class PlantModel
             grid[xIndex][yIndex].add(plant);
             plant.setXIndex(xIndex);
             plant.setYIndex(yIndex);
+            Species species = undergrowthSpecies.get(plant.getID());
+            species.addCoordinate(new Coordinate(xIndex, yIndex));
         }
         for(Plant plant : canopyPlantList)
         {
@@ -58,7 +65,31 @@ public class PlantModel
             grid[xIndex][yIndex].add(plant);
             plant.setXIndex(xIndex);
             plant.setYIndex(yIndex);
+            Species species = canopySpecies.get(plant.getID());
+            species.addCoordinate(new Coordinate(xIndex, yIndex));
         }
+    }
+
+    public LinkedList<Coordinate> getUndergrowthSpeciesCoordinates(int speciesId)
+    {
+        if (undergrowthSpecies.containsKey(speciesId))
+        {
+            Species s = undergrowthSpecies.get(speciesId);
+            return s.getCoordinates();
+        }
+        else
+            return null;
+    }
+
+    public LinkedList<Coordinate> getCanopySpeciesCoordinates(int speciesId)
+    {
+        if (canopySpecies.containsKey(speciesId))
+        {
+            Species s = canopySpecies.get(speciesId);
+            return s.getCoordinates();
+        }
+        else
+            return null;
     }
 
     public LinkedList<Plant>[][] getGrid() { return grid; }

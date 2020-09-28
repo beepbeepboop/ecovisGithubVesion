@@ -124,6 +124,7 @@ public class FireModel
         else
         {
             probability = densityGrid[destination.getX()][destination.getY()]; // Probability of spreading to a tile is proportionate to its density
+            probability += 0.5;
         }
 
 
