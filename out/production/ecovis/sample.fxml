@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Group?>
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane fx:id="p1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#panOnDrag" onScroll="#setOnScroll" prefHeight="470.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller" />
+<Pane fx:id="p1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#visStuff" onMouseDragged="#panOnDrag" onScroll="#setOnScroll" prefHeight="470.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+      <Group fx:id="gCanopy" />
+      <Group fx:id="gUnderGrowth" />
+   </children>
+</Pane>

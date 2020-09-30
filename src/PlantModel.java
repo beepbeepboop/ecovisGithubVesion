@@ -5,7 +5,7 @@ public class PlantModel
 	private ElevationGrid elevationGrid;
 	private LinkedList<Plant> undergrowthPlantList;
 	private LinkedList<Plant> canopyPlantList;
-	private LinkedList<Plant>[][] grid;
+	private PlantNode[][] grid;
 	private int dimX, dimY;
 	private float gridSpacing;
 
@@ -16,7 +16,7 @@ public class PlantModel
 		canopyPlantList = canopyPlants;
 		dimX = elevationGrid.getDimX();
 		dimY = elevationGrid.getDimY();
-		grid = new LinkedList[dimX][dimY];
+		grid = new PlantNode[dimX][dimY];
 		gridSpacing = elevationGrid.getGridSpacing();
 		initialiseGrid();
 		assignPlantsToGrid();
@@ -29,7 +29,7 @@ public class PlantModel
 		{
 			for(int j = 0; j < dimY; j++)
 			{
-				grid[i][j] = new LinkedList<Plant>();
+				grid[i][j] = new PlantNode();
 			}
 		}
 	}
@@ -37,32 +37,19 @@ public class PlantModel
 	// Populates the gridPosition variable in the plant and adds a reference to the plant in the local grid
 	private void assignPlantsToGrid()
 	{
-		/*
+
 		for(Plant plant : undergrowthPlantList)
 		{
-			int xIndex = (int)(plant.getX()/gridSpacing);
-			if(xIndex >= 256){xIndex=255;}
-			int yIndex = (int)(plant.getY()/gridSpacing);
-			if(yIndex >= 256){yIndex=255;}
-
-			grid[xIndex][yIndex].add(plant);
-			plant.setXIndex(xIndex);
-			plant.setYIndex(yIndex);
-		}*/
+			grid[(int)plant.getX()][(int)plant.getY()].add(plant);
+		}
 		for(Plant plant : canopyPlantList)
 		{
-			int xIndex = (int)(plant.getX()/gridSpacing);
-			if(xIndex >= dimX){xIndex=dimX-1;}
-			int yIndex = (int)(plant.getY()/gridSpacing);
-			if(yIndex >= dimY){yIndex=dimY-1;}
-
-			grid[xIndex][yIndex].add(plant);
-			plant.setXIndex(xIndex);
-			plant.setYIndex(yIndex);
+			grid[(int)plant.getX()][(int)plant.getY()].add(plant);//changed
 		}
 	}
 
 	public int getDimX(){return dimX;}
 	public int getDimY(){return dimY;}
-	public LinkedList<Plant> getPlants(int x, int y){return grid[x][y];}
+	//public LinkedList<Plant> getPlants(int x, int y){return grid[x][y];}
+	public PlantNode getNode(int x, int y){return grid[x][y];}
 }
