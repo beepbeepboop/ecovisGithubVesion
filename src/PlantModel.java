@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class PlantModel
@@ -5,11 +6,12 @@ public class PlantModel
 	private ElevationGrid elevationGrid;
 	private LinkedList<Plant> undergrowthPlantList;
 	private LinkedList<Plant> canopyPlantList;
+	private Species[] species;
 	private PlantNode[][] grid;
 	private int dimX, dimY;
 	private float gridSpacing;
 
-	public PlantModel(ElevationGrid elevGrid, LinkedList<Plant> undergrowthPlants, LinkedList<Plant> canopyPlants)
+	public PlantModel(ElevationGrid elevGrid, LinkedList<Plant> undergrowthPlants, LinkedList<Plant> canopyPlants, Species[] s)
 	{
 		elevationGrid = elevGrid;
 		undergrowthPlantList = undergrowthPlants;
@@ -18,6 +20,7 @@ public class PlantModel
 		dimY = elevationGrid.getDimY();
 		grid = new PlantNode[dimX][dimY];
 		gridSpacing = elevationGrid.getGridSpacing();
+		species = s;
 		initialiseGrid();
 		assignPlantsToGrid();
 	}
@@ -29,7 +32,7 @@ public class PlantModel
 		{
 			for(int j = 0; j < dimY; j++)
 			{
-				grid[i][j] = new PlantNode();
+				grid[i][j] = new PlantNode(species.length);
 			}
 		}
 	}
@@ -37,7 +40,6 @@ public class PlantModel
 	// Populates the gridPosition variable in the plant and adds a reference to the plant in the local grid
 	private void assignPlantsToGrid()
 	{
-
 		for(Plant plant : undergrowthPlantList)
 		{
 			grid[(int)plant.getX()][(int)plant.getY()].add(plant);

@@ -32,33 +32,33 @@ public class Controller implements Initializable
 	Pane p1;
 
 	Scale s = new Scale();
-
 	final DoubleProperty myScale = new SimpleDoubleProperty(1.0);
-	ImageView img = new ImageView();
+
+	private ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
+	private Species[] species;
+	private LinkedList<Plant> undergrowthPlants;
+	private LinkedList<Plant> canopyPlants;
+	PlantModel plantModel;
+	int noSpc;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
-		HashMap<Integer, Species> canopySpecies;
-		HashMap<Integer, Species> undergrowthSpecies;
-		LinkedList<Plant> undergrowthPlants;
-		LinkedList<Plant> canopyPlants;
-		//private static FireModel fireModel;
-		PlantModel plantModel;
+		//Read Files into Classes
 		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
+		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
 		canopyPlants = fr.getCanopyPlants();
 		undergrowthPlants = fr.getUndergrowthPlants();
-		fr.readSpc();	//Populates species field
-		canopySpecies = fr.getCanopySpecies();
-		undergrowthSpecies = fr.getUndergrowthSpecies();
 
-		//System.out.println(undergrowthSpecies);
+
 		System.out.println("Making PlantModel");
-		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants);
+		noSpc = species.length;
+		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, species);
 		p1.getTransforms().add(s);
-
-
+		setSpcColour();
+		initPlantVis();
+		/*
 		for(int i=0; i<plantModel.getDimX(); i++)
 		{
 			for (int j = 0; j < plantModel.getDimY(); j++)
@@ -158,6 +158,81 @@ public class Controller implements Initializable
 
 	}
 
+	private void initPlantVis()
+	{
+		for(Plant plant: undergrowthPlants)
+		{
+			Circle circle = new Circle();
+			circle.setCenterX(plant.getX());
+			circle.setCenterY(plant.getY());
+			circle.setFill(Paint.valueOf(species[plant.getID()].getColour()));
+			circle.setRadius(plant.getCanopyRadius());
+
+			gUnderGrowth.getChildren().add(circle);
+		}
+		for(Plant plant: canopyPlants)
+		{
+			Circle circle = new Circle();
+			circle.setCenterX(plant.getX());
+			circle.setCenterY(plant.getY());
+			circle.setFill(Paint.valueOf(species[plant.getID()].getColour()));
+			circle.setRadius(plant.getCanopyRadius());
+
+			gCanopy.getChildren().add(circle);
+		}
+	}
+
+	private void setSpcColour()
+	{
+		String co;
+		for(int i=0;i< 16;i++)
+		{
+			switch (i)
+			{
+				case 0:
+					co = "#14467532";
+					break;
+				case 1:
+					co = "#c2828232";
+					break;
+				case 2:
+					co = "#d0000032";
+					break;
+				case 3:
+					co = "#6ae07732";
+					break;
+				case 4:
+					co = "#006b0a32";
+					break;
+				case 5:
+					co = "#ccff0032";
+					break;
+				case 10:
+					co = "#20405532";
+					break;
+				case 11:
+					co = "#a282a232";
+					break;
+				case 12:
+					co = "#d0700b32";
+					break;
+				case 13:
+					co = "#2ae03732";
+					break;
+				case 14:
+					co = "#a06b0c32";
+					break;
+				case 15:
+					co = "#ace00062";
+					break;
+				default:
+					co = "#ff008f32";
+
+			}
+			species[i].setColour(co);
+		}
+	}
+
 	public void setOnScroll(ScrollEvent event)
 	{
 		if(event.getDeltaY()>0)
@@ -173,8 +248,8 @@ public class Controller implements Initializable
 				myScale.set(myScale.getValue()-0.15);
 			}
 		}
-		s.setPivotX(event.getX());
-		s.setPivotY(event.getY());
+		s.setPivotX((s.getPivotX()+event.getX())/2);
+		s.setPivotY((s.getPivotY()+event.getY())/2);
 		s.setX(myScale.getValue());
 		s.setY(myScale.getValue());
 
