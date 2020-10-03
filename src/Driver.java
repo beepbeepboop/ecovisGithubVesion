@@ -23,22 +23,23 @@ public class Driver
 		canopySpecies = fr.getCanopySpecies();
 		undergrowthSpecies = fr.getUndergrowthSpecies();
 
-		//System.out.println(undergrowthSpecies);
-		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, undergrowthSpecies,canopySpecies);
+		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, undergrowthSpecies, canopySpecies);
+		fireModel = new FireModel(plantModel);
 
+		// ***TESTS***
+		//System.out.println(undergrowthSpecies);
 		LinkedList<Coordinate> speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(3);
 		System.out.println(speciesLocation);
 		speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(plantModel.findSpeciesIdByName("Western Swordfern"));
 		System.out.println(speciesLocation);
 
-		fireModel = new FireModel(plantModel);
-		LinkedList<Coordinate> temp = new LinkedList<Coordinate>();
-		temp.add(new Coordinate(20,10));
+		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
+		fireStart.add(new Coordinate(20,10));
 		/*temp.add(new Coordinate(200, 90));
 		temp.add(new Coordinate(12,53));
 		temp.add(new Coordinate(40,6));
 		temp.add(new Coordinate(231,4));*/
-		fireModel.computeSpread(3, temp);
+		fireModel.computeSpread(3, fireStart);
 		//System.out.println(fireModel);
 	}
 }
