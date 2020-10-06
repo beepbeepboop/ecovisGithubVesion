@@ -184,7 +184,7 @@ public class FireModel
     @Override
     public String toString()
     {
-        String temp = "DensityGrid " +
+        String outputString = "DensityGrid " +
                 "dimX=" + dimX +
                 ", dimY=" + dimY +
                 ", gridSpacing=" + gridSpacing +
@@ -194,20 +194,20 @@ public class FireModel
         {
             for(int y = 0; y < dimY; y++)
             {
-                temp += "["+x+","+y+"]="+densityGrid[x][y]+" ";
+                outputString += "["+x+","+y+"]="+densityGrid[x][y]+" ";
             }
-            temp += "\n";
+            outputString += "\n";
         }
 
-        temp += "\nAverage total density: " + totalAverageDensity + " square plant area per grid\n";
-        temp += "\nAverage positive density: " + positveAverageDensity + " square plant are per grid for non-empty grids only\n";
+        outputString += "\nAverage total density: " + totalAverageDensity + " square plant area per grid\n";
+        outputString += "\nAverage positive density: " + positveAverageDensity + " square plant are per grid for non-empty grids only\n";
 
-        temp += "\nFire Spread\n";
+        outputString += "\nFire Spread\n";
         for(int i = 0; i < fireSnapshots.length; i++)
         {
-            temp += "Time: " + i + "\n";
-            temp += fireSnapshots[i] + "\n\n";
+            outputString += "Time: " + i + "\n";
+            outputString += fireSnapshots[i] + "\n\n";
         }
-        return temp;
+        return outputString;
     }
 }

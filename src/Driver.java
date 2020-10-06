@@ -44,7 +44,9 @@ public class Driver
 
 		System.out.println("Computing Firemodel");
 		fireModel.computeSpread(10, fireStart, 3);
+		System.out.println("Compute done, printing Firemodel");
 		System.out.println(fireModel);
+		System.out.println("firemodel is printed");
 
 		Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
 	}
