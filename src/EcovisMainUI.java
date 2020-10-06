@@ -26,19 +26,13 @@ public class EcovisMainUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("EcovisMainUI.fxml"));
         primaryStage.setTitle("Hello World");
-        //primaryStage.setScene(new Scene(root, 300, 275));
-        VBox parent1 = new VBox();
+        primaryStage.setScene(new Scene(root, 300, 275));
+//        VBox parent1 = new VBox();
 //        Label label1 = new Label("Some label text"); //child node for parent1
 //        Label label2 = new Label("Some additional label text"); //child node for parent1
 //        parent1.getChildren().addAll(label1,label2);
-
-
-        Scene firstScene = new Scene(parent1);
-        primaryStage.setHeight(500);
-        primaryStage.setWidth(600);
-        primaryStage.setScene(firstScene);primaryStage.show();
 
 
         Stage filterwindow = new Stage();
@@ -47,6 +41,8 @@ public class EcovisMainUI extends Application {
         Stage backgroundElevation = new Stage();
         createElevation(backgroundElevation);
 
+
+        primaryStage.show();
     }
 
     private static ElevationGrid elevationGrid; //this code is here for testing purposes, need to find a way to parse

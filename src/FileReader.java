@@ -138,7 +138,7 @@ public class FileReader
 			float latitude = line.nextFloat();
 
 			elevGrid = new ElevationGrid(dimX,dimY,gridSpacing,latitude);
-			float elevation,minHeight=1000000000,maxHeight=0;
+			float elevation,minHeight=1000000000,maxHeight=0;    //fix to float max later look for max float value
 			for(int x = 0; x < dimX; x++)
 			{
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
