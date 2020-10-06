@@ -1,9 +1,12 @@
+import java.util.LinkedList;
+
 public class Species
 {
     //Class Variables
     private int speciesID, numPlants;
     private float minHeight, maxHeight, heightRatio;
     private String commonName, latinName;
+    private LinkedList<Coordinate> coordinates;
 
     //Constructors
     public Species(int id, float min, float max, float hRatio, int num)
@@ -13,6 +16,7 @@ public class Species
         maxHeight = max;
         heightRatio = hRatio;
         numPlants = num;
+        coordinates = new LinkedList<Coordinate>();
     }
 
     //Getters and Setters
@@ -23,6 +27,7 @@ public class Species
     public float getHeightRatio(){return heightRatio;}
     public String getCommonName(){return commonName;}
     public String getLatinName(){return latinName;}
+    public LinkedList<Coordinate> getCoordinates(){return coordinates;}
 
     public void setSpeciesID(int id){speciesID = id;}
     public void setNumPlants(int num){numPlants = num;}
@@ -30,6 +35,7 @@ public class Species
     public void setMaxHeight(int max){maxHeight = max;}
     public void setHeightRatio(int hRatio){heightRatio = hRatio;}
     public void setName(String com, String lat){commonName = com; latinName = lat;}
+    public void addCoordinate(Coordinate c){coordinates.add(c);}
 
     //To String for debugging
     public String toString()
