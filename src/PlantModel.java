@@ -54,4 +54,6 @@ public class PlantModel
 	public int getDimY(){return dimY;}
 	//public LinkedList<Plant> getPlants(int x, int y){return grid[x][y];}
 	public PlantNode getNode(int x, int y){return grid[x][y];}
+
+
 }

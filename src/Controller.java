@@ -2,9 +2,13 @@
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +34,8 @@ public class Controller implements Initializable
 	Group gUnderGrowth;
 	@FXML
 	Pane p1;
+	@FXML
+	Label l1;
 
 	Scale s = new Scale();
 	final DoubleProperty myScale = new SimpleDoubleProperty(1.0);
@@ -40,6 +46,9 @@ public class Controller implements Initializable
 	private LinkedList<Plant> canopyPlants;
 	PlantModel plantModel;
 	int noSpc;
+
+	ObservableList<Node> canopyNodes;
+	ObservableList<Node> underGrowthNodes;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -58,104 +67,6 @@ public class Controller implements Initializable
 		p1.getTransforms().add(s);
 		setSpcColour();
 		initPlantVis();
-		/*
-		for(int i=0; i<plantModel.getDimX(); i++)
-		{
-			for (int j = 0; j < plantModel.getDimY(); j++)
-			{
-				Circle circle = new Circle();
-				circle.setCenterX(i);
-				circle.setCenterY(j);
-				plantModel.getNode(i,j).calcVis();
-				circle.setFill(Paint.valueOf(plantModel.getNode(i, j).getColour()));
-				circle.setRadius(plantModel.getNode(i, j).getRadius());
-				gCanopy.getChildren().add(circle);
-			}
-		}
-
-		/*
-		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants);
-		p1.getTransforms().add(s);
-		int idForColour = 0;
-		String colourForCirc = "";
-		int plantCounter;
-		for(int i=0; i<plantModel.getDimX(); i++)
-		{
-			for(int j=0; j<plantModel.getDimY();j++)
-			{
-				plantCounter = 0;
-				while (plantModel.getNode(i,j).getPlants().size()>plantCounter)
-				{
-					Circle circle = new Circle();
-					circle.setCenterX(plantModel.getNode(i,j).getPlants().get(plantCounter).getX());
-					circle.setCenterY(plantModel.getNode(i,j).getPlants().get(plantCounter).getY());
-
-					idForColour = plantModel.getNode(i,j).getPlants().get(plantCounter).getID();
-					switch (idForColour)
-					{
-						case 0:
-							colourForCirc = "#14467532";
-							break;
-						case 1:
-							colourForCirc = "#c2828232";
-							break;
-						case 2:
-							colourForCirc = "#d0000032";
-							break;
-						case 3:
-							colourForCirc = "#6ae07732";
-							break;
-						case 4:
-							colourForCirc = "#006b0a32";
-							break;
-						case 5:
-							colourForCirc = "#ccff0032";
-							break;
-						case 10:
-							colourForCirc = "#20405532";
-							break;
-						case 11:
-							colourForCirc = "#a282a232";
-							break;
-						case 12:
-							colourForCirc = "#d0700b32";
-							break;
-						case 13:
-							colourForCirc = "#2ae03732";
-							break;
-						case 14:
-							colourForCirc = "#a06b0c32";
-							break;
-						case 15:
-							colourForCirc = "#ace00062";
-							break;
-						default:
-							colourForCirc = "#ff008f32";
-
-					}
-					circle.setFill(Paint.valueOf(colourForCirc));
-					circle.setRadius(plantModel.getNode(i,j).getPlants().get(plantCounter).getCanopyRadius());
-					gCanopy.getChildren().add(circle);
-					plantCounter++;
-				}
-			}
-		}
-		/*
-		LinkedList<Plant> underGrowth = fr.getUndergrowthPlants();
-		for(int i=0; i<underGrowth.size(); i++)
-		{
-			Circle circle = new Circle();
-			circle.setCenterX(underGrowth.get(i).getX());
-			circle.setCenterY(underGrowth.get(i).getY());
-			circle.setFill(Paint.valueOf("#bfd60c34"));
-			circle.setRadius(underGrowth.get(i).getCanopyRadius());
-
-			gUnderGrowth.getChildren().add(circle);
-		}
-		gUnderGrowth.setVisible(false);
-		System.out.println(fr.toString());
-		*/
-
 	}
 
 	private void initPlantVis()
@@ -180,6 +91,9 @@ public class Controller implements Initializable
 
 			gCanopy.getChildren().add(circle);
 		}
+
+		canopyNodes = gCanopy.getChildren();
+		underGrowthNodes = gUnderGrowth.getChildren();
 	}
 
 	private void setSpcColour()
@@ -223,7 +137,7 @@ public class Controller implements Initializable
 					co = "#a06b0c32";
 					break;
 				case 15:
-					co = "#ace00062";
+					co = "#acc0a262";
 					break;
 				default:
 					co = "#ff008f32";
@@ -237,15 +151,15 @@ public class Controller implements Initializable
 	{
 		if(event.getDeltaY()>0)
 		{
-			//myScale.set(myScale.getValue() * 1.2);
-			myScale.set(myScale.getValue()+0.15);
+			myScale.set(myScale.getValue() * 1.2);
+			//myScale.set(myScale.getValue()+0.15);
 		}
 		else
 		{
 			if (myScale.getValue() > 1.0)
 			{
-				//myScale.set(myScale.getValue() / 1.2);
-				myScale.set(myScale.getValue()-0.15);
+				myScale.set(myScale.getValue() / 1.2);
+				//myScale.set(myScale.getValue()-0.15);
 			}
 		}
 		s.setPivotX((s.getPivotX()+event.getX())/2);
@@ -271,5 +185,68 @@ public class Controller implements Initializable
 			gCanopy.setVisible(!gCanopy.isVisible());
 		}
 	}
+
+
+
+
+	int spcFil = 0;
+	public void filterInc(ActionEvent event)
+	{
+		if(spcFil<15){spcFil++;}
+		else{spcFil=0;}
+		l1.setText(String.valueOf(spcFil));
+	}
+
+	public void filterDec(ActionEvent event)
+	{
+		if(spcFil>0){spcFil--;}
+		else{spcFil = 15;}
+		l1.setText(String.valueOf(spcFil));
+	}
+
+	public void filter(ActionEvent event)
+	{
+		filterSpc(spcFil);
+	}
+
+	public void remFilter(ActionEvent event)
+	{
+		remFilterSpc(spcFil);
+	}
+
+	public void filterSpc(int id)
+	{
+		if(id>species.length-1||id<0){System.out.println("ID out of Bounds");}
+		int startC = species[id].getCanopyPos();
+		int endC = startC+species[id].getNumCanopyPlants();
+		for (int i=startC; i<endC; i++)
+		{
+			canopyNodes.get(i).setVisible(false);
+		}
+		int startU = species[id].getUnderPos();
+		int endU = startU+species[id].getNumUnderGrowthPlants();
+		for(int i=startU; i<endU; i++)
+		{
+			underGrowthNodes.get(i).setVisible(false);
+		}
+	}
+
+	public void remFilterSpc(int id)
+	{
+		if(id>species.length||id<0){System.out.println("ID out of Bounds");}
+		int startC = species[id].getCanopyPos();
+		int endC = startC+species[id].getNumCanopyPlants();
+		for (int i=startC; i<endC; i++)
+		{
+			canopyNodes.get(i).setVisible(true);
+		}
+		int startU = species[id].getUnderPos();
+		int endU = startU+species[id].getNumUnderGrowthPlants();
+		for(int i=startU; i<endU; i++)
+		{
+			underGrowthNodes.get(i).setVisible(true);
+		}
+	}
+
 
 }

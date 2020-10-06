@@ -9,7 +9,7 @@ public class Plant
 	private int xIndex;
 	private int yIndex;
 
-	private boolean visable = true;
+	private int visible;
 
 	//Constructors
 	public Plant(){}
@@ -22,6 +22,7 @@ public class Plant
 		z = zPos;
 		height = h;
 		canopyRadius = canopyR;
+		visible = 0;
 	}
 
 	//Getters and Setters
@@ -33,7 +34,7 @@ public class Plant
 	public float getCanopyRadius(){return canopyRadius;}
 	public int getXIndex(){return xIndex;}
 	public int getYIndex(){return yIndex;}
-	public boolean isVisable(){return visable;}
+	public boolean getVisible(){return visible ==0;}
 
 	public void setID(int idSet){speciesID = idSet;}
 	public void setX(float xSet){x = xSet;}
@@ -43,7 +44,10 @@ public class Plant
 	public void setCanopyRadius(float crSet){canopyRadius = crSet;}
 	public void setXIndex(int x){xIndex = x;}
 	public void setYIndex(int y){yIndex = y;}
-	public void setVisable(boolean b){visable = b;}
+	public void incVisable(){
+		visible++;}
+	public void decVisable(){
+		visible--;}
 
 	//Test equals method
 	public boolean equals(Plant p)

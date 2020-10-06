@@ -74,7 +74,7 @@ public class FileReader
 	public LinkedList<Plant> readPdb(File file)
 	{
 		LinkedList<Plant> ret = new LinkedList<Plant>();
-
+		boolean canopy = file.getName().contains("canopy");
 		try
 		{    
 			Scanner f = new Scanner(file);
@@ -93,7 +93,9 @@ public class FileReader
 				numPlants = line.nextInt();
 
 				//PopulateSpeciesData
-				species[i].populateSpc(speciesId, numPlants, minHeight, maxHeight, heightRatio);
+				species[i].populateSpc(speciesId, minHeight, maxHeight, heightRatio);
+				if(canopy){species[i].setCanopyPos(ret.size());species[i].setNumCanopyPlants(numPlants);}
+				else{species[i].setUnderPos(ret.size());species[i].setNumUnderGrowthPlantsPlants(numPlants);}
 
 				for(int j = 0; j < numPlants; j++)
 				{

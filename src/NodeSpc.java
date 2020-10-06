@@ -17,4 +17,5 @@ public class NodeSpc
 	public int getId(){return id;}
 	public int getAmount() {return amount;}
 	public LinkedList<Plant> getPlants() {return plants;}
+
 }
