@@ -1,3 +1,4 @@
+import javafx.scene.shape.Circle;
 
 public class Plant
 {
@@ -5,6 +6,7 @@ public class Plant
 	private int speciesID;
 	private float x, y, z;
 	private float height, canopyRadius;
+	private Circle circle;
 
 	private int xIndex;
 	private int yIndex;
@@ -34,7 +36,7 @@ public class Plant
 	public float getCanopyRadius(){return canopyRadius;}
 	public int getXIndex(){return xIndex;}
 	public int getYIndex(){return yIndex;}
-	public boolean getVisible(){return visible ==0;}
+	public Circle getCircle(){return circle;}
 
 	public void setID(int idSet){speciesID = idSet;}
 	public void setX(float xSet){x = xSet;}
@@ -44,16 +46,18 @@ public class Plant
 	public void setCanopyRadius(float crSet){canopyRadius = crSet;}
 	public void setXIndex(int x){xIndex = x;}
 	public void setYIndex(int y){yIndex = y;}
-	public void incVisable(){
-		visible++;}
-	public void decVisable(){
-		visible--;}
+	public void setCircle(Circle c){circle = c;}
 
 	//Test equals method
 	public boolean equals(Plant p)
 	{
 		if(x == p.x){return true;}
 		return false;
+	}
+
+	public void setVisible(boolean b)
+	{
+		circle.setVisible(b);
 	}
 
 	//To String for debugging

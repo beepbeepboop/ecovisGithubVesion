@@ -80,6 +80,7 @@ public class Controller implements Initializable
 			circle.setRadius(plant.getCanopyRadius());
 
 			gUnderGrowth.getChildren().add(circle);
+			plant.setCircle(circle);
 		}
 		for(Plant plant: canopyPlants)
 		{
@@ -90,6 +91,7 @@ public class Controller implements Initializable
 			circle.setRadius(plant.getCanopyRadius());
 
 			gCanopy.getChildren().add(circle);
+			plant.setCircle(circle);
 		}
 
 		canopyNodes = gCanopy.getChildren();
@@ -221,7 +223,7 @@ public class Controller implements Initializable
 		int endC = startC+species[id].getNumCanopyPlants();
 		for (int i=startC; i<endC; i++)
 		{
-			canopyNodes.get(i).setVisible(false);
+			canopyPlants.get(i).setVisible(false);
 		}
 		int startU = species[id].getUnderPos();
 		int endU = startU+species[id].getNumUnderGrowthPlants();
@@ -238,13 +240,13 @@ public class Controller implements Initializable
 		int endC = startC+species[id].getNumCanopyPlants();
 		for (int i=startC; i<endC; i++)
 		{
-			canopyNodes.get(i).setVisible(true);
+			canopyPlants.get(i).setVisible(true);
 		}
 		int startU = species[id].getUnderPos();
 		int endU = startU+species[id].getNumUnderGrowthPlants();
 		for(int i=startU; i<endU; i++)
 		{
-			underGrowthNodes.get(i).setVisible(true);
+			undergrowthPlants.get(i).setVisible(true);
 		}
 	}
 
