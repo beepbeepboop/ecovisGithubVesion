@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
@@ -36,14 +37,20 @@ public class Controller implements Initializable
 	Pane p1;
 	@FXML
 	Label l1;
+	@FXML
+	Slider sRadLower;
+	@FXML
+	Slider sRadHigher;
 
 	Scale s = new Scale();
 	final DoubleProperty myScale = new SimpleDoubleProperty(1.0);
+	private Filter filter;
 
 	private ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
 	private Species[] species;
-	private LinkedList<Plant> undergrowthPlants;
-	private LinkedList<Plant> canopyPlants;
+
+	private Plant[] undergrowthPlants;
+	private Plant[] canopyPlants;
 	PlantModel plantModel;
 	int noSpc;
 
@@ -53,17 +60,23 @@ public class Controller implements Initializable
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
+		LinkedList<Plant> undergrowthPlantsList;
+		LinkedList<Plant> canopyPlantsList;
 		//Read Files into Classes
 		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
-		canopyPlants = fr.getCanopyPlants();
-		undergrowthPlants = fr.getUndergrowthPlants();
-
+		canopyPlantsList = fr.getCanopyPlants();
+		undergrowthPlantsList = fr.getUndergrowthPlants();
+		undergrowthPlants = new Plant[undergrowthPlantsList.size()];
+		undergrowthPlants = undergrowthPlantsList.toArray(undergrowthPlants);
+		canopyPlants = new Plant[canopyPlantsList.size()];
+		canopyPlants = canopyPlantsList.toArray(canopyPlants);
 
 		System.out.println("Making PlantModel");
 		noSpc = species.length;
-		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, species);
+		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
+		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
 		setSpcColour();
 		initPlantVis();
@@ -188,7 +201,11 @@ public class Controller implements Initializable
 		}
 	}
 
-
+	public void updateRadFilter(MouseEvent event)
+	{
+		filter.filterByRadius((float)sRadLower.getValue(), (float)sRadHigher.getValue());
+		System.out.println("Should be filtering by:\nMin: "+(float)sRadLower.getValue()+"\nMax: "+(float)sRadHigher.getValue());
+	}
 
 
 	int spcFil = 0;
@@ -206,49 +223,10 @@ public class Controller implements Initializable
 		l1.setText(String.valueOf(spcFil));
 	}
 
-	public void filter(ActionEvent event)
-	{
-		filterSpc(spcFil);
-	}
+	public void filter(ActionEvent event){filter.filterSpc(spcFil);}
+	public void remFilter(ActionEvent event){filter.remFilterSpc(spcFil);}
+	public void filterRad(float min, float max){filter.filterByRadius(min,max);}
 
-	public void remFilter(ActionEvent event)
-	{
-		remFilterSpc(spcFil);
-	}
-
-	public void filterSpc(int id)
-	{
-		if(id>species.length-1||id<0){System.out.println("ID out of Bounds");}
-		int startC = species[id].getCanopyPos();
-		int endC = startC+species[id].getNumCanopyPlants();
-		for (int i=startC; i<endC; i++)
-		{
-			canopyPlants.get(i).setVisible(false);
-		}
-		int startU = species[id].getUnderPos();
-		int endU = startU+species[id].getNumUnderGrowthPlants();
-		for(int i=startU; i<endU; i++)
-		{
-			underGrowthNodes.get(i).setVisible(false);
-		}
-	}
-
-	public void remFilterSpc(int id)
-	{
-		if(id>species.length||id<0){System.out.println("ID out of Bounds");}
-		int startC = species[id].getCanopyPos();
-		int endC = startC+species[id].getNumCanopyPlants();
-		for (int i=startC; i<endC; i++)
-		{
-			canopyPlants.get(i).setVisible(true);
-		}
-		int startU = species[id].getUnderPos();
-		int endU = startU+species[id].getNumUnderGrowthPlants();
-		for(int i=startU; i<endU; i++)
-		{
-			undergrowthPlants.get(i).setVisible(true);
-		}
-	}
-
-
+	boolean proxFilterBool = true;
+	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy((float)75, (float)75, (float)25);proxFilterBool=true;}}
 }

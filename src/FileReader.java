@@ -4,10 +4,11 @@ import java.util.*;
 
 public class FileReader
 {
-	File undergrowthF, canopyF, elevationF, speciesF;
+	private File undergrowthF, canopyF, elevationF, speciesF;
 
 	// Used for storing species data
 	private Species[] species;
+
 
 	//Constructor, assigns files based on path
 	public FileReader(String path)
@@ -91,6 +92,7 @@ public class FileReader
 				heightRatio = line.nextFloat();
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
 				numPlants = line.nextInt();
+
 
 				//PopulateSpeciesData
 				species[i].populateSpc(speciesId, minHeight, maxHeight, heightRatio);

@@ -59,6 +59,8 @@ public class Plant
 	{
 		circle.setVisible(b);
 	}
+	public void incVis(){visible++;if(visible==1){circle.setVisible(false);}}
+	public void decVis(){visible--;if(visible==0){circle.setVisible(true);}}
 
 	//To String for debugging
 	public String toString()
