@@ -3,6 +3,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane fx:id="p1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#visStuff" onMouseDragged="#panOnDrag" onScroll="#setOnScroll" prefHeight="470.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
@@ -14,5 +15,8 @@
       <Button layoutX="404.0" layoutY="64.0" mnemonicParsing="false" onAction="#filter" prefHeight="25.0" prefWidth="62.0" />
       <Button layoutX="404.0" layoutY="89.0" mnemonicParsing="false" onAction="#remFilter" prefHeight="25.0" prefWidth="62.0" />
       <Label fx:id="l1" layoutX="351.0" layoutY="18.0" prefHeight="25.0" prefWidth="53.0" />
+      <Slider fx:id="sRadLower" layoutX="316.0" layoutY="442.0" max="16.0" onMouseReleased="#updateRadFilter" />
+      <Slider fx:id="sRadHigher" layoutX="316.0" layoutY="428.0" max="16.0" onMouseReleased="#updateRadFilter" value="16.0" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#filterProx" prefHeight="25.0" prefWidth="62.0" />
    </children>
 </Pane>
