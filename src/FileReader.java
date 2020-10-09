@@ -136,7 +136,7 @@ public class FileReader
 			float latitude = line.nextFloat();
 
 			elevGrid = new ElevationGrid(dimX,dimY,gridSpacing,latitude);
-			float elevation;
+			float elevation,minHeight=1000000000,maxHeight=0;    //fix to float max later look for max float value
 			for(int x = 0; x < dimX; x++)
 			{
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
@@ -144,8 +144,15 @@ public class FileReader
 				{
 					elevation = line.nextFloat();
 					elevGrid.setElevation(x,y,elevation);
+
+					//comparing min and max heights to current elevation
+					if (elevation<minHeight){minHeight=elevation;}
+					if (elevation>maxHeight){maxHeight=elevation;}
 				}
 			}
+			elevGrid.setMinHeight(minHeight);
+			elevGrid.setMaxHeight(maxHeight);
+
 			line.close();
 			f.close();
 			return elevGrid;

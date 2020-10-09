@@ -1,2 +1,2 @@
-./data
-./moreData
+./data/ #the sampple data folder we were given, used for testing
+./moreData/
