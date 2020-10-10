@@ -144,7 +144,6 @@ public class FireModel
 
     // Can add other parameters like wind vector and plant density
     //TODO: Tweak probability once fire visualisation is complete
-    //TODO: Account for wind
     //TODO: Scale probability with fire age (peaks midway through lifetime)
     public boolean spreadProbability(HashMap<Integer, HashMap<Integer, Integer>> context, Coordinate start, Coordinate destination)
     {
