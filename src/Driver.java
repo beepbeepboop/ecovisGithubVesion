@@ -48,6 +48,6 @@ public class Driver
 		System.out.println(fireModel);
 		System.out.println("firemodel is printed");
 
-		Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
+		//Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
 	}
 }

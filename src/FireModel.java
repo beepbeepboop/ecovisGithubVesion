@@ -157,8 +157,14 @@ public class FireModel
         probability = amplitude/(1+Math.exp((0-steepness)*(x-shift)));
 
         //Modify probability by wind unit vector additively
-        //Coordinate windVector = new Coordinate()
-        //Coordinate spreadVector = new Coordinate(destination.getX()-start.getX(), destination.getY() - start.getY());
+        Coordinate windVector = new Coordinate(1,1); //NE
+        double windIntensity = 0.5; //Value between 0-1
+        double maxWindImpact = 0.2; //Maximum additive probability resulting from wind
+        Coordinate spreadVector = new Coordinate(destination.getX()-start.getX(), destination.getY() - start.getY());
+
+        double dotProduct = (windVector.scaleFactor()*spreadVector.scaleFactor())*((windVector.getX()*spreadVector.getX())+(windVector.getY()*spreadVector.getY()));
+        double windFactor = dotProduct*windIntensity*maxWindImpact;
+        probability += windFactor;
 
         double random = Math.random();
         if(random <= probability)
