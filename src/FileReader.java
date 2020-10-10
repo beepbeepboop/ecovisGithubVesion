@@ -147,7 +147,7 @@ public class FileReader
 
 					//comparing min and max heights to current elevation
 					if (elevation<minHeight){minHeight=elevation;}
-					if (elevation>maxHeight){maxHeight=elevation;}
+					else if (elevation>maxHeight){maxHeight=elevation;}
 				}
 			}
 			elevGrid.setMinHeight(minHeight);

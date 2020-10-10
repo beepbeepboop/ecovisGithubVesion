@@ -1,3 +1,7 @@
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+
 public class ElevationGrid
 {
     //Class Variables
@@ -28,7 +32,26 @@ public class ElevationGrid
 
     public void setElevation(int x, int y, float elevation){grid[x][y] = elevation;}
 
-    
+
+    public WritableImage getBackground()
+    {
+        WritableImage wImage = new WritableImage(dimX, dimY);
+        PixelWriter pWriter = wImage.getPixelWriter();
+        int greyScaleValue;
+        int granularity = 6;
+        float heightRange = maxHeight-minHeight;
+        for(int i=0; i<dimX; i++)
+        {
+            for(int j=0; j<dimY; j++)
+            {
+                greyScaleValue = (int)((grid[i][j]-minHeight)/heightRange*255);
+                greyScaleValue -= greyScaleValue%granularity;
+                pWriter.setColor(i,j, Color.grayRgb(greyScaleValue));
+            }
+        }
+        return wImage;
+    }
+
     public String toString() {
         String temp = "ElevationGrid " +
                 "dimX=" + dimX +

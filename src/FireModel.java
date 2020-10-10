@@ -3,7 +3,7 @@ import java.util.*;
 public class FireModel
 {
     private PlantModel plantModel;
-    private LinkedList<Plant>[][] grid;
+    private PlantNode[][] grid;
     private float[][] densityGrid;
     private float totalAverageDensity;
     private float positveAverageDensity;
@@ -32,6 +32,7 @@ public class FireModel
         float densityTotal = 0;
         float positiveDensityTotal = 0;
         int positiveDensityCount = 0;
+        /*
         for(int x = 0; x < dimX; x++) { for (int y = 0; y < dimY; y++)
         {
             float density = 0;
@@ -52,6 +53,8 @@ public class FireModel
             densityTotal += density;
             densityGrid[x][y] = density;
         }}
+        */
+
         if(positiveDensityCount!=0)
         positveAverageDensity = positiveDensityTotal/positiveDensityCount;
         totalAverageDensity = densityTotal/(dimX*dimY);

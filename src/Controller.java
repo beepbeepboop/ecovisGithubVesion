@@ -41,6 +41,8 @@ public class Controller implements Initializable
 	Slider sRadLower;
 	@FXML
 	Slider sRadHigher;
+	@FXML
+	ImageView ivBackground;
 
 	Scale s = new Scale();
 	final DoubleProperty myScale = new SimpleDoubleProperty(1.0);
@@ -73,9 +75,10 @@ public class Controller implements Initializable
 		canopyPlants = new Plant[canopyPlantsList.size()];
 		canopyPlants = canopyPlantsList.toArray(canopyPlants);
 
-		System.out.println("Making PlantModel");
+		//System.out.println("Making PlantModel");
 		noSpc = species.length;
-		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
+		//plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
+		ivBackground.setImage(elevationGrid.getBackground());
 		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
 		setSpcColour();
@@ -204,7 +207,6 @@ public class Controller implements Initializable
 	public void updateRadFilter(MouseEvent event)
 	{
 		filter.filterByRadius((float)sRadLower.getValue(), (float)sRadHigher.getValue());
-		System.out.println("Should be filtering by:\nMin: "+(float)sRadLower.getValue()+"\nMax: "+(float)sRadHigher.getValue());
 	}
 
 
