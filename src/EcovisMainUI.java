@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 public class EcovisMainUI extends Application {
 
+    //TODO: Download javaFX
+    //TODO: Edit configurations, copypaste declan's stuff under VM options
+    //TODO: Under project structure, add library - path to JavaFX/lib
     public static void main(String[] args) {
         launch(args);
     }
