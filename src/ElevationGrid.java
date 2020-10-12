@@ -70,6 +70,4 @@ public class ElevationGrid
         }
         return temp;
     }
-
-
 }

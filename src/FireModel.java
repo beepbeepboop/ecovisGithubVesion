@@ -147,7 +147,6 @@ public class FireModel
 
     // Can add other parameters like wind vector and plant density
     //TODO: Tweak probability once fire visualisation is complete
-    //TODO: Account for wind
     //TODO: Scale probability with fire age (peaks midway through lifetime)
     public boolean spreadProbability(HashMap<Integer, HashMap<Integer, Integer>> context, Coordinate start, Coordinate destination)
     {
@@ -160,8 +159,14 @@ public class FireModel
         probability = amplitude/(1+Math.exp((0-steepness)*(x-shift)));
 
         //Modify probability by wind unit vector additively
-        //Coordinate windVector = new Coordinate()
-        //Coordinate spreadVector = new Coordinate(destination.getX()-start.getX(), destination.getY() - start.getY());
+        Coordinate windVector = new Coordinate(1,1); //NE
+        double windIntensity = 0.5; //Value between 0-1
+        double maxWindImpact = 0.2; //Maximum additive probability resulting from wind
+        Coordinate spreadVector = new Coordinate(destination.getX()-start.getX(), destination.getY() - start.getY());
+
+        double dotProduct = (windVector.scaleFactor()*spreadVector.scaleFactor())*((windVector.getX()*spreadVector.getX())+(windVector.getY()*spreadVector.getY()));
+        double windFactor = dotProduct*windIntensity*maxWindImpact;
+        probability += windFactor;
 
         double random = Math.random();
         if(random <= probability)
@@ -187,7 +192,7 @@ public class FireModel
     @Override
     public String toString()
     {
-        String temp = "DensityGrid " +
+        String outputString = "DensityGrid " +
                 "dimX=" + dimX +
                 ", dimY=" + dimY +
                 ", gridSpacing=" + gridSpacing +
@@ -197,20 +202,20 @@ public class FireModel
         {
             for(int y = 0; y < dimY; y++)
             {
-                temp += "["+x+","+y+"]="+densityGrid[x][y]+" ";
+                outputString += "["+x+","+y+"]="+densityGrid[x][y]+" ";
             }
-            temp += "\n";
+            outputString += "\n";
         }
 
-        temp += "\nAverage total density: " + totalAverageDensity + " square plant area per grid\n";
-        temp += "\nAverage positive density: " + positveAverageDensity + " square plant are per grid for non-empty grids only\n";
+        outputString += "\nAverage total density: " + totalAverageDensity + " square plant area per grid\n";
+        outputString += "\nAverage positive density: " + positveAverageDensity + " square plant are per grid for non-empty grids only\n";
 
-        temp += "\nFire Spread\n";
+        outputString += "\nFire Spread\n";
         for(int i = 0; i < fireSnapshots.length; i++)
         {
-            temp += "Time: " + i + "\n";
-            temp += fireSnapshots[i] + "\n\n";
+            outputString += "Time: " + i + "\n";
+            outputString += fireSnapshots[i] + "\n\n";
         }
-        return temp;
+        return outputString;
     }
 }
