@@ -99,14 +99,19 @@ public class FileReader
 				if(canopy){species[i].setCanopyPos(ret.size());species[i].setNumCanopyPlants(numPlants);}
 				else{species[i].setUnderPos(ret.size());species[i].setNumUnderGrowthPlantsPlants(numPlants);}
 
+				float xPos;
+				float yPos;
+				float zPos;
+				float height;
+				float radius;
 				for(int j = 0; j < numPlants; j++)
 				{
 					line = new Scanner(f.nextLine()).useLocale(Locale.US);
-					float xPos = line.nextFloat();
-					float yPos = line.nextFloat();
-					float zPos = line.nextFloat();
-					float height = line.nextFloat();
-					float radius = line.nextFloat();
+					xPos = line.nextFloat();
+					yPos = line.nextFloat();
+					zPos = line.nextFloat();
+					height = line.nextFloat();
+					radius = line.nextFloat();
 					ret.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
 				}
 			}

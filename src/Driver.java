@@ -7,8 +7,7 @@ public class Driver
 {
 	//Store Terrain Data in an ElevationGrid & Plant Data in Vectors
 	private static ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
-	private static HashMap<Integer, Species> canopySpecies;
-	private static HashMap<Integer, Species> undergrowthSpecies;
+	private static Species[] species;
 	private static LinkedList<Plant> undergrowthPlants;
 	private static LinkedList<Plant> canopyPlants;
 	private static FireModel fireModel;
@@ -16,23 +15,23 @@ public class Driver
 
 	public static void main(String[] args) 
 	{
-		FileReader fr = new FileReader("./data/");	//If this is in a directory above then you're storing files incorrectly
+		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");	//If this is in a directory above then you're storing files incorrectly
 		//System.out.println(fr.toString());
+		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
 		canopyPlants = fr.getCanopyPlants();
 		undergrowthPlants = fr.getUndergrowthPlants();
-		fr.readSpc();	//Populates species field
-		canopySpecies = fr.getCanopySpecies();
-		undergrowthSpecies = fr.getUndergrowthSpecies();
+		//fr.readSpc();	//Populates species field
 
-		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, undergrowthSpecies, canopySpecies);
+
+		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, species);
 		fireModel = new FireModel(plantModel);
 
 		// ***TESTS***
 		//System.out.println(undergrowthSpecies);
-		LinkedList<Coordinate> speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(3);
+		//LinkedList<Coordinate> speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(3);
 		//System.out.println(speciesLocation);
-		speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(plantModel.findSpeciesIdByName("Western Swordfern"));
+		//speciesLocation = plantModel.getUndergrowthSpeciesCoordinates(plantModel.findSpeciesIdByName("Western Swordfern"));
 		//System.out.println(speciesLocation);
 
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
