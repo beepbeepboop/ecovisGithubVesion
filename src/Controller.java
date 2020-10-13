@@ -59,6 +59,8 @@ public class Controller implements Initializable
 	ObservableList<Node> canopyNodes;
 	ObservableList<Node> underGrowthNodes;
 
+	FireModel fireModel;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
@@ -77,12 +79,17 @@ public class Controller implements Initializable
 
 		//System.out.println("Making PlantModel");
 		noSpc = species.length;
-		//plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
+		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
 		ivBackground.setImage(elevationGrid.getBackground());
 		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
 		setSpcColour();
 		initPlantVis();
+		fireModel = new FireModel(plantModel);
+		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
+		fireStart.add(new Coordinate(20,10));
+		System.out.println("Computing Firemodel");
+		fireModel.computeSpread(301, fireStart, 10);
 	}
 
 	private void initPlantVis()
@@ -114,6 +121,7 @@ public class Controller implements Initializable
 		underGrowthNodes = gUnderGrowth.getChildren();
 	}
 
+	//TODO Update Colours, maybe spectral
 	private void setSpcColour()
 	{
 		String co;
@@ -231,4 +239,28 @@ public class Controller implements Initializable
 
 	boolean proxFilterBool = true;
 	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy((float)75, (float)75, (float)25);proxFilterBool=true;}}
+
+	public void f0(ActionEvent event){fireColour(100);}
+	public void f2(ActionEvent event){fireColour(200);}
+	public void f3(ActionEvent event){fireColour(300);}
+	public void fireColour(int snapNUM)
+	{
+		FireSnapshot fs = fireModel.getFireSnapShot(snapNUM);
+		LinkedList<Plant> workingList;
+		for(Coordinate c: fs.getBurned())
+		{
+			for(Plant plant : (LinkedList<Plant>)plantModel.getGrid()[c.getX()][c.getY()])
+			{
+				plant.setColour("Black");
+			}
+		}
+
+		for(Coordinate c: fs.getBurning())
+		{
+			for(Plant plant : (LinkedList<Plant>)plantModel.getGrid()[c.getX()][c.getY()])
+			{
+				plant.setColour("Orange");
+			}
+		}
+	}
 }

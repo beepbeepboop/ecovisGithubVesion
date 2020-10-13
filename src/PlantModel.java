@@ -7,7 +7,7 @@ public class PlantModel
 	private LinkedList<Plant> undergrowthPlantList;
 	private LinkedList<Plant> canopyPlantList;
 	private Species[] species;
-	private PlantNode[][] grid;
+	private LinkedList<Plant>[][] plants;
 	private int dimX, dimY;
 	private float gridSpacing;
 
@@ -18,7 +18,7 @@ public class PlantModel
 		canopyPlantList = canopyPlants;
 		dimX = elevationGrid.getDimX();
 		dimY = elevationGrid.getDimY();
-		grid = new PlantNode[dimX][dimY];
+		plants = new LinkedList[dimX][dimY];
 		gridSpacing = elevationGrid.getGridSpacing();
 		species = s;
 		initialiseGrid();
@@ -32,7 +32,7 @@ public class PlantModel
 		{
 			for(int j = 0; j < dimY; j++)
 			{
-				grid[i][j] = new PlantNode(species.length);
+				plants[i][j] = new LinkedList<Plant>();
 			}
 		}
 	}
@@ -42,19 +42,18 @@ public class PlantModel
 	{
 		for(Plant plant : undergrowthPlantList)
 		{
-			grid[(int)plant.getX()][(int)plant.getY()].add(plant);
+			plants[(int)plant.getX()][(int)plant.getY()].add(plant);
 		}
 		for(Plant plant : canopyPlantList)
 		{
-			grid[(int)plant.getX()][(int)plant.getY()].add(plant);//changed
+			plants[(int)plant.getX()][(int)plant.getY()].add(plant);//changed
 		}
 	}
 
 	public int getDimX(){return dimX;}
 	public int getDimY(){return dimY;}
 	//public LinkedList<Plant> getPlants(int x, int y){return grid[x][y];}
-	public PlantNode getNode(int x, int y){return grid[x][y];}
 	public float getGridSpacing(){return gridSpacing;}
-	public PlantNode[][] getGrid(){return grid;}
+	public LinkedList[][] getGrid(){return plants;}
 
 }

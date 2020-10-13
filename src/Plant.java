@@ -1,3 +1,4 @@
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class Plant
@@ -47,6 +48,7 @@ public class Plant
 	public void setXIndex(int x){xIndex = x;}
 	public void setYIndex(int y){yIndex = y;}
 	public void setCircle(Circle c){circle = c;}
+	public void setColour(String colour){circle.setFill(Paint.valueOf(colour));}
 
 	//Test equals method
 	public boolean equals(Plant p)

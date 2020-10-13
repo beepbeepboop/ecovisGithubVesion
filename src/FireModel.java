@@ -3,7 +3,7 @@ import java.util.*;
 public class FireModel
 {
     private PlantModel plantModel;
-    private PlantNode[][] grid;
+    private LinkedList<Plant>[][] grid;
     private float[][] densityGrid;
     private float totalAverageDensity;
     private float positveAverageDensity;
@@ -188,6 +188,8 @@ public class FireModel
             return false;
         }
     }
+
+    public FireSnapshot getFireSnapShot(int i){return fireSnapshots[i];}
 
     @Override
     public String toString()

@@ -20,5 +20,8 @@
       <Slider fx:id="sRadLower" layoutX="316.0" layoutY="442.0" max="16.0" onMouseReleased="#updateRadFilter" />
       <Slider fx:id="sRadHigher" layoutX="316.0" layoutY="428.0" max="16.0" onMouseReleased="#updateRadFilter" value="16.0" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#filterProx" prefHeight="25.0" prefWidth="62.0" />
+      <Button layoutX="19.0" layoutY="430.0" mnemonicParsing="false" onAction="#f0" prefHeight="25.0" prefWidth="43.0" />
+      <Button layoutX="62.0" layoutY="430.0" mnemonicParsing="false" onAction="#f2" prefHeight="25.0" prefWidth="43.0" />
+      <Button layoutX="105.0" layoutY="430.0" mnemonicParsing="false" onAction="#f3" prefHeight="25.0" prefWidth="43.0" />
    </children>
 </Pane>
