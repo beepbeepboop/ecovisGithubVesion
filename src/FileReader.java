@@ -76,7 +76,7 @@ public class FileReader
 	//Plant: int speciesID, float x, y, z, height, canopyRadius
 	public LinkedList<Plant> readPdb(File file)
 	{
-		LinkedList<Plant> ret = new LinkedList<Plant>();
+		LinkedList<Plant> retern = new LinkedList<Plant>();
 
 		try
 		{    
@@ -109,7 +109,7 @@ public class FileReader
 					float zPos = line.nextFloat();
 					float height = line.nextFloat();
 					float radius = line.nextFloat();
-					ret.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
+					retern.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
 				}
 			}
 			line.close();
@@ -119,7 +119,7 @@ public class FileReader
 		{
 			System.out.println(e);
 		}
-		return ret;
+		return retern;
 	}
 
 
