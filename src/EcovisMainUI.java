@@ -8,10 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class EcovisMainUI extends Application {
 
@@ -30,8 +33,8 @@ public class EcovisMainUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("EcovisMainUI.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("ECOVIZ");
+        primaryStage.setScene(new Scene(root, 1850, 900));
 //        VBox parent1 = new VBox();
 //        Label label1 = new Label("Some label text"); //child node for parent1
 //        Label label2 = new Label("Some additional label text"); //child node for parent1
@@ -44,7 +47,11 @@ public class EcovisMainUI extends Application {
         Stage backgroundElevation = new Stage();
         createElevation(backgroundElevation);
 
+        Stage filterStage = new Stage();
 
+//        primaryStage.initStyle(StageStyle.TRANSPARENT);
+//        scene.setFill(Color.TRANSPARENT);
+//        primaryStage.setOpacity(0.2);
         primaryStage.show();
     }
 
@@ -128,5 +135,9 @@ public class EcovisMainUI extends Application {
     @Override
     public void stop() throws Exception {
         System.out.println("after UI run");
+    }
+
+    public void OpenFilterButtonClicked(MouseEvent mouseEvent) throws IOException {
+        //show the hidden filter pane
     }
 }
