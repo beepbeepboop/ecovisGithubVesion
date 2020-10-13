@@ -25,22 +25,8 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c8d3b60-bb4a-42b7-a083-f94ec3b04aaa" name="Default Changelist" comment="Merged all Branches together">
+    <list default="true" id="8c8d3b60-bb4a-42b7-a083-f94ec3b04aaa" name="Default Changelist" comment="Removed PlantNode and NodeSpc">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ecovis/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ecovis/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ecovis/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ecovis/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ecovis/Plant.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ecovis/Plant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ecovis/PlantModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ecovis/PlantModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ecovis/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ecovis/sample.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FireModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FireModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FireSnapshot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FireSnapshot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NodeSpc.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Plant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Plant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PlantModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PlantModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PlantNode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +86,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="37d525c6-c181-4bea-a614-c4a6ebde0301" name="Default Changelist" comment="" />
+      <changelist id="8c8d3b60-bb4a-42b7-a083-f94ec3b04aaa" name="Default Changelist" comment="Merged all Branches together" />
       <created>1601996845344</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -134,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602501331461</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Removed PlantNode and NodeSpc">
+      <created>1602590452669</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1602590452669</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -148,7 +141,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="Controller" />
+                        <option value="master" />
                       </list>
                     </value>
                   </entry>
@@ -181,7 +174,8 @@
     <MESSAGE value="Added Filter Class to git tracking" />
     <MESSAGE value="Added Background reader to ElevationGrid" />
     <MESSAGE value="Merged all Branches together" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merged all Branches together" />
+    <MESSAGE value="Removed PlantNode and NodeSpc" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed PlantNode and NodeSpc" />
   </component>
   <component name="WindowStateProjectService">
     <state x="712" y="344" key="#Notifications" timestamp="1602499202114">
@@ -232,10 +226,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="598" y="281" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602499105963" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602229060122">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602590462261">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1602229060122" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1602590462261" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602499088009">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
