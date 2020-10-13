@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="900.0" prefWidth="1850.0" style="-fx-background-color: 33;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EcovisMainUI">
+   <children>
+      <ImageView fitHeight="116.0" fitWidth="131.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/FireLayer.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="728.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/EcovisHeading.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="32.0" layoutY="851.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Resources/ZoomSlider.png" />
+         </image>
+      </ImageView>
+      <Slider layoutX="50.0" layoutY="854.0" prefHeight="14.0" prefWidth="166.0" />
+      <AnchorPane layoutX="1427.0" layoutY="6.0" prefHeight="894.0" prefWidth="422.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/ShrubLayer.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="150.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/elevLayer.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="256.0" layoutY="252.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/TreeLayer.png" />
+               </image>
+            </ImageView>
+            <Slider layoutX="119.0" layoutY="88.0" />
+            <Slider layoutX="119.0" layoutY="207.0" />
+            <Label layoutX="83.0" layoutY="30.0" text="Filter By Height" />
+            <Label layoutX="89.0" layoutY="144.0" text="Filter By Canopy Radius" />
+            <Label layoutX="90.0" layoutY="393.0" text="Filter by species" />
+            <ImageView fitHeight="77.0" fitWidth="45.0" layoutX="24.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/CheckboxTicked.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="77.0" fitWidth="45.0" layoutX="24.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/CheckboxTicked.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="77.0" fitWidth="45.0" layoutX="24.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/CheckboxTicked.png" />
+               </image>
+            </ImageView>
+            <ScrollPane layoutX="22.0" layoutY="424.0" prefHeight="457.0" prefWidth="380.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" />
+              </content>
+            </ScrollPane>
+            <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="167.0" layoutY="435.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/ExpandSpecies.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="76.0" fitWidth="64.0" layoutX="334.0" layoutY="335.0" onMouseClicked="#OpenFilterButtonClicked" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Resources/FilterOut.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

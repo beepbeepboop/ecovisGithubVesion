@@ -6,6 +6,9 @@ public class Plant
     private float x, y, z;
     private float height, canopyRadius;
 
+    private int xIndex;
+    private int yIndex;
+
     //Constructors
     public Plant(){}
 
@@ -26,6 +29,8 @@ public class Plant
     public float getZ(){return z;}
     public float getHeight(){return height;}
     public float getCanopyRadius(){return canopyRadius;}
+    public int getXIndex(){return xIndex;}
+    public int getYIndex(){return yIndex;}
 
     public void setID(int idSet){speciesID = idSet;}
     public void setX(float xSet){x = xSet;}
@@ -33,6 +38,8 @@ public class Plant
     public void setZ(float zSet){z = zSet;}
     public void setHeight(float hSet){height = hSet;}
     public void setCanopyRadius(float crSet){canopyRadius = crSet;}
+    public void setXIndex(int x){xIndex = x;}
+    public void setYIndex(int y){yIndex = y;}
 
 
     public boolean equals(Plant p)
@@ -49,6 +56,7 @@ public class Plant
         "\nSpecies ID: "+speciesID+
         "\nPosition: "+x+"x, "+y+"y, "+z+"z"+
         "\nHeight: "+height+
-        "\nCanopy Radius: "+canopyRadius+"\n");
+        "\nCanopy Radius: "+canopyRadius+
+        "\nGrid Indices: ["+xIndex+","+yIndex+"]\n");
     }
 }

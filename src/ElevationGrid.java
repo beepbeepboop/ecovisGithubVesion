@@ -1,10 +1,8 @@
-//import java.util.Arrays;
-
 public class ElevationGrid
 {
     //Class Variables
     private int dimX, dimY;
-    private float gridSpacing, latitude;
+    private float gridSpacing, latitude, minHeight, maxHeight;
     private float[][] grid;
 
     //Constructor
@@ -21,6 +19,12 @@ public class ElevationGrid
     public float getElevation(int x, int y){return grid[x][y];}
     public float getGridSpacing(){return gridSpacing;}
     public float getLatitude(){return latitude;}
+    public float getMinHeight(){return minHeight;}
+    public float getMaxHeight(){return maxHeight;}
+    public int getDimX(){return dimX;}
+    public int getDimY(){return dimY;}
+    public void setMinHeight(float minHeight) {this.minHeight = minHeight;}
+    public void setMaxHeight(float maxHeight) {this.maxHeight = maxHeight;}
 
     public void setElevation(int x, int y, float elevation){grid[x][y] = elevation;}
 
