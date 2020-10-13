@@ -67,7 +67,7 @@ public class Controller implements Initializable
 		LinkedList<Plant> undergrowthPlantsList;
 		LinkedList<Plant> canopyPlantsList;
 		//Read Files into Classes
-		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
+		FileReader fr = new FileReader("C:\\Users\\iamsu\\IdeaProjects\\ecovis\\ecovis\\data");
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
 		canopyPlantsList = fr.getCanopyPlants();
