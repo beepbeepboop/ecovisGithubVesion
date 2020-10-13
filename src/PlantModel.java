@@ -55,5 +55,4 @@ public class PlantModel
 	//public LinkedList<Plant> getPlants(int x, int y){return grid[x][y];}
 	public float getGridSpacing(){return gridSpacing;}
 	public LinkedList[][] getGrid(){return plants;}
-
 }

@@ -15,7 +15,7 @@ public class Driver
 
 	public static void main(String[] args) 
 	{
-		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");	//If this is in a directory above then you're storing files incorrectly
+		FileReader fr = new FileReader("./data/");	//If this is in a directory above then you're storing files incorrectly
 		//System.out.println(fr.toString());
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
@@ -47,6 +47,6 @@ public class Driver
 		System.out.println(fireModel);
 		System.out.println("firemodel is printed");
 
-		Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
+		//Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
 	}
 }

@@ -32,7 +32,7 @@ public class FireModel
         float densityTotal = 0;
         float positiveDensityTotal = 0;
         int positiveDensityCount = 0;
-        /*
+
         for(int x = 0; x < dimX; x++) { for (int y = 0; y < dimY; y++)
         {
             float density = 0;
@@ -53,7 +53,6 @@ public class FireModel
             densityTotal += density;
             densityGrid[x][y] = density;
         }}
-        */
 
         if(positiveDensityCount!=0)
         positveAverageDensity = positiveDensityTotal/positiveDensityCount;
@@ -135,12 +134,12 @@ public class FireModel
         LinkedList<Coordinate> neighbourhood = new LinkedList<Coordinate>();
         if(x - 1 >= 0 && y - 1 >= 0) { neighbourhood.add(new Coordinate((x-1),(y-1))); }
         if(x - 1 >= 0) { neighbourhood.add(new Coordinate((x-1),y)); }
-        if(x - 1 >= 0 && y + 1 <= dimY) { neighbourhood.add(new Coordinate((x-1),(y+1))); }
+        if(x - 1 >= 0 && y < dimY - 1) { neighbourhood.add(new Coordinate((x-1),(y+1))); }
         if(y - 1 >= 0) { neighbourhood.add(new Coordinate(x,(y-1))); }
-        if(y + 1 <= dimY) { neighbourhood.add(new Coordinate(x,(y+1))); }
-        if(x + 1 <= dimX && y - 1 >= 0) { neighbourhood.add(new Coordinate((x+1), (y-1))); }
-        if(x + 1 <= dimX) { neighbourhood.add(new Coordinate((x+1),y)); }
-        if(x + 1 <= dimX && y + 1 <= dimY) { neighbourhood.add(new Coordinate((x+1), (y+1))); }
+        if(y < dimY - 1) { neighbourhood.add(new Coordinate(x,(y+1))); }
+        if(x < dimX - 1 && y - 1 >= 0) { neighbourhood.add(new Coordinate((x+1), (y-1))); }
+        if(x < dimX - 1) { neighbourhood.add(new Coordinate((x+1),y)); }
+        if(x < dimX - 1 && y < dimY - 1) { neighbourhood.add(new Coordinate((x+1), (y+1))); }
 
         return neighbourhood;
     }
@@ -148,6 +147,7 @@ public class FireModel
     // Can add other parameters like wind vector and plant density
     //TODO: Tweak probability once fire visualisation is complete
     //TODO: Scale probability with fire age (peaks midway through lifetime)
+    //TODO: Pass information to fire snapshots after fire death
     public boolean spreadProbability(HashMap<Integer, HashMap<Integer, Integer>> context, Coordinate start, Coordinate destination)
     {
         double probability;
@@ -160,8 +160,8 @@ public class FireModel
 
         //Modify probability by wind unit vector additively
         Coordinate windVector = new Coordinate(1,1); //NE
-        double windIntensity = 0.5; //Value between 0-1
-        double maxWindImpact = 0.2; //Maximum additive probability resulting from wind
+        double windIntensity = 1; //Value between 0-1
+        double maxWindImpact = 0.5; //Maximum additive probability resulting from wind
         Coordinate spreadVector = new Coordinate(destination.getX()-start.getX(), destination.getY() - start.getY());
 
         double dotProduct = (windVector.scaleFactor()*spreadVector.scaleFactor())*((windVector.getX()*spreadVector.getX())+(windVector.getY()*spreadVector.getY()));

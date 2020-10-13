@@ -67,7 +67,7 @@ public class Controller implements Initializable
 		LinkedList<Plant> undergrowthPlantsList;
 		LinkedList<Plant> canopyPlantsList;
 		//Read Files into Classes
-		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
+		FileReader fr = new FileReader("./data/");
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
 		canopyPlantsList = fr.getCanopyPlants();
@@ -88,8 +88,10 @@ public class Controller implements Initializable
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
 		fireStart.add(new Coordinate(20,10));
+		fireStart.add(new Coordinate(200, 100));
+		//fireStart.add(new Coordinate(600, 600));
 		System.out.println("Computing Firemodel");
-		fireModel.computeSpread(301, fireStart, 10);
+		fireModel.computeSpread(301, fireStart, 3);
 	}
 
 	private void initPlantVis()
@@ -240,9 +242,9 @@ public class Controller implements Initializable
 	boolean proxFilterBool = true;
 	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy((float)75, (float)75, (float)25);proxFilterBool=true;}}
 
-	public void f0(ActionEvent event){fireColour(100);}
-	public void f2(ActionEvent event){fireColour(200);}
-	public void f3(ActionEvent event){fireColour(300);}
+	public void f0(ActionEvent event){fireColour(50);}
+	public void f2(ActionEvent event){fireColour(100);}
+	public void f3(ActionEvent event){fireColour(150);}
 	public void fireColour(int snapNUM)
 	{
 		FireSnapshot fs = fireModel.getFireSnapShot(snapNUM);
