@@ -42,11 +42,25 @@ public class PlantModel
 	{
 		for(Plant plant : undergrowthPlantList)
 		{
-			plants[(int)plant.getX()][(int)plant.getY()].add(plant);
+			int xIndex = (int)(plant.getX()/gridSpacing);
+			if(xIndex >= dimX){xIndex=dimX-1;}
+			int yIndex = (int)(plant.getY()/gridSpacing);
+			if(yIndex >= dimY){yIndex=dimY-1;}
+
+			plants[xIndex][yIndex].add(plant);
+			plant.setXIndex(xIndex);
+			plant.setYIndex(yIndex);
 		}
 		for(Plant plant : canopyPlantList)
 		{
-			plants[(int)plant.getX()][(int)plant.getY()].add(plant);//changed
+			int xIndex = (int)(plant.getX()/gridSpacing);
+			if(xIndex >= dimX){xIndex=dimX-1;}
+			int yIndex = (int)(plant.getY()/gridSpacing);
+			if(yIndex >= dimY){yIndex=dimY-1;}
+
+			plants[xIndex][yIndex].add(plant);
+			plant.setXIndex(xIndex);
+			plant.setYIndex(yIndex);
 		}
 	}
 

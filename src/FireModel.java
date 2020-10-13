@@ -154,19 +154,21 @@ public class FireModel
         //Sigmoid
         double x = densityGrid[destination.getX()][destination.getY()];
         double amplitude = 1;
-        double steepness = 2;
+        double steepness = 2.5;
         double shift = positveAverageDensity; //Equivalence point of sigmoid
         probability = amplitude/(1+Math.exp((0-steepness)*(x-shift)));
 
         //Modify probability by wind unit vector additively
         Coordinate windVector = new Coordinate(1,1); //NE
-        double windIntensity = 1; //Value between 0-1
-        double maxWindImpact = 0.5; //Maximum additive probability resulting from wind
+        double windIntensity = 0.75; //Value between 0-1
+        double maxWindImpact = 0.2; //Maximum additive probability resulting from wind
         Coordinate spreadVector = new Coordinate(destination.getX()-start.getX(), destination.getY() - start.getY());
 
         double dotProduct = (windVector.scaleFactor()*spreadVector.scaleFactor())*((windVector.getX()*spreadVector.getX())+(windVector.getY()*spreadVector.getY()));
         double windFactor = dotProduct*windIntensity*maxWindImpact;
         probability += windFactor;
+
+        probability-= 0.05;
 
         double random = Math.random();
         if(random <= probability)
@@ -194,30 +196,30 @@ public class FireModel
     @Override
     public String toString()
     {
-        String outputString = "DensityGrid " +
-                "dimX=" + dimX +
-                ", dimY=" + dimY +
-                ", gridSpacing=" + gridSpacing +
-                ", grid:\n";
-
-        for(int x = 0; x < dimX; x++)
-        {
-            for(int y = 0; y < dimY; y++)
-            {
-                outputString += "["+x+","+y+"]="+densityGrid[x][y]+" ";
-            }
-            outputString += "\n";
-        }
+        String outputString = "DensityGrid ";
+//                "dimX=" + dimX +
+//                ", dimY=" + dimY +
+//                ", gridSpacing=" + gridSpacing +
+//                ", grid:\n";
+//
+//        for(int x = 0; x < dimX; x++)
+//        {
+//            for(int y = 0; y < dimY; y++)
+//            {
+//                outputString += "["+x+","+y+"]="+densityGrid[x][y]+" ";
+//            }
+//            outputString += "\n";
+//        }
 
         outputString += "\nAverage total density: " + totalAverageDensity + " square plant area per grid\n";
         outputString += "\nAverage positive density: " + positveAverageDensity + " square plant are per grid for non-empty grids only\n";
 
-        outputString += "\nFire Spread\n";
+        /*outputString += "\nFire Spread\n";
         for(int i = 0; i < fireSnapshots.length; i++)
         {
             outputString += "Time: " + i + "\n";
             outputString += fireSnapshots[i] + "\n\n";
-        }
+        }*/
         return outputString;
     }
 }

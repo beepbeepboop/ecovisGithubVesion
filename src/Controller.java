@@ -78,20 +78,26 @@ public class Controller implements Initializable
 		canopyPlants = canopyPlantsList.toArray(canopyPlants);
 
 		//System.out.println("Making PlantModel");
+        p1.setPrefSize(elevationGrid.getDimX()*elevationGrid.getGridSpacing(), elevationGrid.getDimY()*elevationGrid.getGridSpacing());
 		noSpc = species.length;
 		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
 		ivBackground.setImage(elevationGrid.getBackground());
+        ivBackground.setFitHeight(elevationGrid.getDimX()*elevationGrid.getGridSpacing());
+        ivBackground.setFitWidth(elevationGrid.getDimY()*elevationGrid.getGridSpacing());
 		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
 		setSpcColour();
 		initPlantVis();
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
-		fireStart.add(new Coordinate(20,10));
+		fireStart.add(new Coordinate(180,60));
 		fireStart.add(new Coordinate(200, 100));
-		//fireStart.add(new Coordinate(600, 600));
+		fireStart.add(new Coordinate(600, 600));
+		fireStart.add(new Coordinate(800, 200));
 		System.out.println("Computing Firemodel");
-		fireModel.computeSpread(301, fireStart, 3);
+		fireModel.computeSpread(400, fireStart, 3);
+
+        System.out.println(fireModel);
 	}
 
 	private void initPlantVis()
@@ -242,9 +248,10 @@ public class Controller implements Initializable
 	boolean proxFilterBool = true;
 	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy((float)75, (float)75, (float)25);proxFilterBool=true;}}
 
-	public void f0(ActionEvent event){fireColour(50);}
-	public void f2(ActionEvent event){fireColour(100);}
-	public void f3(ActionEvent event){fireColour(150);}
+	int snapNo = 0;
+	public void f0(ActionEvent event){fireColour(0);}
+	public void f2(ActionEvent event){snapNo+= 10; fireColour(snapNo);}
+	public void f3(ActionEvent event){snapNo+= 50; fireColour(snapNo);}
 	public void fireColour(int snapNUM)
 	{
 		FireSnapshot fs = fireModel.getFireSnapShot(snapNUM);
