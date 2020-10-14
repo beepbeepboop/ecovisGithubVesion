@@ -9,7 +9,7 @@
 
 <Pane fx:id="p1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#visStuff" onMouseDragged="#panOnDrag" onScroll="#setOnScroll" prefHeight="470.0" prefWidth="470.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
-      <ImageView fx:id="ivBackground" fitHeight="470.0" fitWidth="470.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ivBackground" pickOnBounds="true" preserveRatio="true" />
       <Group fx:id="gCanopy" />
       <Group fx:id="gUnderGrowth" />
       <Button layoutX="404.0" layoutY="14.0" mnemonicParsing="false" onAction="#filterInc" prefHeight="25.0" prefWidth="62.0" />
@@ -23,5 +23,8 @@
       <Button layoutX="19.0" layoutY="430.0" mnemonicParsing="false" onAction="#f0" prefHeight="25.0" prefWidth="43.0" />
       <Button layoutX="62.0" layoutY="430.0" mnemonicParsing="false" onAction="#f2" prefHeight="25.0" prefWidth="43.0" />
       <Button layoutX="105.0" layoutY="430.0" mnemonicParsing="false" onAction="#f3" prefHeight="25.0" prefWidth="43.0" />
+      <Button layoutX="427.0" layoutY="394.0" mnemonicParsing="false" onAction="#filterCanopy" prefHeight="25.0" prefWidth="36.0" />
+      <Button layoutX="427.0" layoutY="344.0" mnemonicParsing="false" onAction="#filterBackGround" prefHeight="25.0" prefWidth="36.0" />
+      <Button layoutX="427.0" layoutY="369.0" mnemonicParsing="false" onAction="#filterUnderGrowth" prefHeight="25.0" prefWidth="36.0" />
    </children>
 </Pane>

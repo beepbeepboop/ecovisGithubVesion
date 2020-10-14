@@ -1,13 +1,13 @@
 public class Filter
 {
+	//TODO set max and min
+	//TODO check FilterBySPC
 	private float maxHeight, minHeight;
 	private float maxRadius, minRadius;
 	private Plant[] canopy;
 	private Plant[] underGrowth;
 	private Species[] species;
-		//TODO set max and min
-		//TODO add filter by spc
-		//TODO add filter by proxy
+
 	public Filter(Plant[] c, Plant[] u, Species[] s){canopy = c; underGrowth = u;species = s;minRadius = (float)0.0; maxRadius = (float)16.0;}
 
 	//Filter functions designed to keep Plant Visibility count accurate

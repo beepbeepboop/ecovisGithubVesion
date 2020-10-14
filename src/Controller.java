@@ -64,12 +64,12 @@ public class Controller implements Initializable
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		LinkedList<Plant> undergrowthPlantsList;
-		LinkedList<Plant> canopyPlantsList;
 		//Read Files into Classes
 		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
+		LinkedList<Plant> undergrowthPlantsList;
+		LinkedList<Plant> canopyPlantsList;
 		canopyPlantsList = fr.getCanopyPlants();
 		undergrowthPlantsList = fr.getUndergrowthPlants();
 		undergrowthPlants = new Plant[undergrowthPlantsList.size()];
@@ -77,21 +77,46 @@ public class Controller implements Initializable
 		canopyPlants = new Plant[canopyPlantsList.size()];
 		canopyPlants = canopyPlantsList.toArray(canopyPlants);
 
+
+
+		p1.setPrefSize(elevationGrid.getDimX()*elevationGrid.getGridSpacing(),elevationGrid.getDimY()*elevationGrid.getGridSpacing());
 		//System.out.println("Making PlantModel");
 		noSpc = species.length;
 		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
 		ivBackground.setImage(elevationGrid.getBackground());
+		ivBackground.fitHeightProperty().bind(p1.heightProperty());
+		ivBackground.fitWidthProperty().bind(p1.widthProperty());
+
+		/*
+		ivBackground.setFitHeight(elevationGrid.getDimX()*elevationGrid.getGridSpacing());
+		ivBackground.setFitWidth(elevationGrid.getDimY()*elevationGrid.getGridSpacing());*/
+
 		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
 		setSpcColour();
 		initPlantVis();
+
+		System.out.println("Canopy start and amounts:\n");
+		for(int i=0;i<species.length;i++)
+		{
+			System.out.println(i+": "+species[i].getCanopyPos()+" "+species[i].getNumCanopyPlants());
+		}
+		System.out.println("UnderGrowth start and amounts:\n");
+		for(int i=0;i<species.length;i++)
+		{
+			System.out.println(i+": "+species[i].getUnderPos()+" "+species[i].getNumUnderGrowthPlants());
+		}
+		//put this into UI calls
+		/*
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
 		fireStart.add(new Coordinate(20,10));
 		System.out.println("Computing Firemodel");
-		fireModel.computeSpread(301, fireStart, 10);
+		fireModel.computeSpread(10, fireStart, 3);*/
 	}
 
+	//ERROR with storing plant ID it seems
+	/*
 	private void initPlantVis()
 	{
 		for(Plant plant: undergrowthPlants)
@@ -119,6 +144,38 @@ public class Controller implements Initializable
 
 		canopyNodes = gCanopy.getChildren();
 		underGrowthNodes = gUnderGrowth.getChildren();
+	}*/
+
+	private void initPlantVis()
+	{
+		Plant plant;
+		for(int i=0;i<species.length;i++)
+		{
+			for(int j=species[i].getCanopyPos();j<species[i].getCanopyPos()+species[i].getNumCanopyPlants();j++)
+			{
+				plant = canopyPlants[j];
+				Circle circle = new Circle();
+				circle.setCenterX(plant.getX());
+				circle.setCenterY(plant.getY());
+				circle.setFill(Paint.valueOf(species[i].getColour()));
+				circle.setRadius(plant.getCanopyRadius());
+
+				gCanopy.getChildren().add(circle);
+				plant.setCircle(circle);
+			}
+			for(int j=species[i].getUnderPos();j<species[i].getUnderPos()+species[i].getNumUnderGrowthPlants();j++)
+			{
+				plant = undergrowthPlants[j];
+				Circle circle = new Circle();
+				circle.setCenterX(plant.getX());
+				circle.setCenterY(plant.getY());
+				circle.setFill(Paint.valueOf(species[i].getColour()));
+				circle.setRadius(plant.getCanopyRadius());
+
+				gUnderGrowth.getChildren().add(circle);
+				plant.setCircle(circle);
+			}
+		}
 	}
 
 	//TODO Update Colours, maybe spectral
@@ -196,8 +253,8 @@ public class Controller implements Initializable
 	}
 	public void panOnDrag(MouseEvent event)
 	{
-			s.setPivotX(event.getX());
-			s.setPivotY(event.getY());
+		s.setPivotX(event.getX());
+		s.setPivotY(event.getY());
 	}
 
 	public void visStuff(MouseEvent event)
@@ -237,12 +294,19 @@ public class Controller implements Initializable
 	public void remFilter(ActionEvent event){filter.remFilterSpc(spcFil);}
 	public void filterRad(float min, float max){filter.filterByRadius(min,max);}
 
+	boolean[] layerFilter = {false, false, false};
+	public void filterBackGround(ActionEvent event){ivBackground.setVisible(layerFilter[0]);layerFilter[0]=!layerFilter[0];}
+	public void filterUnderGrowth(ActionEvent event){gUnderGrowth.setVisible(layerFilter[1]);layerFilter[1]=!layerFilter[1];}
+	public void filterCanopy(ActionEvent event){gCanopy.setVisible(layerFilter[2]);layerFilter[2]=!layerFilter[2];}
+
+	//Yeet these methods
 	boolean proxFilterBool = true;
 	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy((float)75, (float)75, (float)25);proxFilterBool=true;}}
 
-	public void f0(ActionEvent event){fireColour(100);}
-	public void f2(ActionEvent event){fireColour(200);}
-	public void f3(ActionEvent event){fireColour(300);}
+
+	public void f0(ActionEvent event){fireColour(1);}
+	public void f2(ActionEvent event){fireColour(2);}
+	public void f3(ActionEvent event){fireColour(3);}
 	public void fireColour(int snapNUM)
 	{
 		FireSnapshot fs = fireModel.getFireSnapShot(snapNUM);
@@ -251,7 +315,7 @@ public class Controller implements Initializable
 		{
 			for(Plant plant : (LinkedList<Plant>)plantModel.getGrid()[c.getX()][c.getY()])
 			{
-				plant.setColour("Black");
+				plant.setColour("#00000032");
 			}
 		}
 
@@ -259,7 +323,7 @@ public class Controller implements Initializable
 		{
 			for(Plant plant : (LinkedList<Plant>)plantModel.getGrid()[c.getX()][c.getY()])
 			{
-				plant.setColour("Orange");
+				plant.setColour("#ff6c0332");
 			}
 		}
 	}
