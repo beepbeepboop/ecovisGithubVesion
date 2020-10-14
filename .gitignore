@@ -1,5 +1,5 @@
-./data/
 ./moreData/
-./out
 *.iml
-.idea
+/.idea/
+/data/
+/out/
