@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -83,9 +82,13 @@ public class Controller implements Initializable
 		//put this into UI calls
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
-		fireStart.add(new Coordinate(20,10));
+		fireStart.add(new Coordinate(180,60));
+		fireStart.add(new Coordinate(200, 100));
+		fireStart.add(new Coordinate(600, 600));
+		fireStart.add(new Coordinate(800, 200));
 		System.out.println("Computing Firemodel");
-		fireModel.computeSpread(10, fireStart, 3);
+		fireModel.computeSpread(400, fireStart, 3);
+
 	}
 
 	//ERROR with storing plant ID it seems
@@ -307,9 +310,10 @@ public class Controller implements Initializable
 	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy();proxFilterBool=true;}}
 
 
-	public void f0(ActionEvent event){fireColour(1);}
-	public void f2(ActionEvent event){fireColour(2);}
-	public void f3(ActionEvent event){fireColour(3);}
+	int snapNo = 0;
+	public void f0(ActionEvent event){fireColour(0);}
+	public void f2(ActionEvent event){snapNo+= 10; fireColour(snapNo);}
+	public void f3(ActionEvent event){snapNo+= 50; fireColour(snapNo);}
 	public void fireColour(int snapNUM)
 	{
 		FireSnapshot fs = fireModel.getFireSnapShot(snapNUM);
@@ -318,7 +322,7 @@ public class Controller implements Initializable
 		{
 			for(Plant plant : (LinkedList<Plant>)plantModel.getGrid()[c.getX()][c.getY()])
 			{
-				plant.setColour("#00000032");
+				plant.setColour("#00000052");
 			}
 		}
 
@@ -326,7 +330,7 @@ public class Controller implements Initializable
 		{
 			for(Plant plant : (LinkedList<Plant>)plantModel.getGrid()[c.getX()][c.getY()])
 			{
-				plant.setColour("#ff6c0332");
+				plant.setColour("#ff6c0399");
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-./data/ #the sampple data folder we were given, used for testing
+./data/
 ./moreData/
 ./out
 *.iml
