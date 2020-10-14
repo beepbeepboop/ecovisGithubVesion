@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="900.0" prefWidth="1850.0" style="-fx-background-color: 33;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EcovisMainUI">
+<AnchorPane prefHeight="900.0" prefWidth="1850.0" style="-fx-background-color: 33;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="116.0" fitWidth="131.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -63,9 +63,9 @@
                </image>
             </ImageView>
             <ScrollPane layoutX="22.0" layoutY="424.0" prefHeight="457.0" prefWidth="380.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" />
-              </content>
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" />
+               </content>
             </ScrollPane>
             <ImageView fitHeight="44.0" fitWidth="45.0" layoutX="167.0" layoutY="435.0" pickOnBounds="true" preserveRatio="true">
                <image>
