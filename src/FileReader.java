@@ -25,7 +25,7 @@ public class FileReader
 			{
 				if(fileName.contains("undergrowth"))	// Assumed appropriate naming
 					undergrowthF = file;
-				else
+				else //should now be only canopy left
 					canopyF = file;
 			}
 			else if(fileName.contains(".spc"))
@@ -45,7 +45,7 @@ public class FileReader
 	public Plant[] getCanopyPlants(){System.out.println("Reading canopy plants file");return readPdb(canopyF);}
 	public Species[] getSpecies(){System.out.println("Reading Spc File");readSpc(); return species;}
 	public ElevationGrid getElevation(){System.out.println("Reading Elevation File");return readElv(elevationF);}
-
+	public String getListOfFiles(String path){File f = new File(path);File[] fileList = f.listFiles();return Arrays.toString(fileList);}
 
 	// Reads species names and populates species data
 	public void readSpc()
