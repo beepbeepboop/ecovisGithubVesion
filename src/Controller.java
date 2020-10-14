@@ -81,6 +81,8 @@ public class Controller implements Initializable
 		noSpc = species.length;
 		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
 		ivBackground.setImage(elevationGrid.getBackground());
+		ivBackground.setFitHeight(elevationGrid.getDimX()*elevationGrid.getGridSpacing());
+		ivBackground.setFitWidth(elevationGrid.getDimY()*elevationGrid.getGridSpacing());
 		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
 		setSpcColour();

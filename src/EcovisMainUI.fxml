@@ -72,7 +72,7 @@
                   <Image url="@Resources/ExpandSpecies.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="76.0" fitWidth="64.0" layoutX="334.0" layoutY="335.0" onMouseClicked="#OpenFilterButtonClicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="76.0" fitWidth="64.0" layoutX="334.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Resources/FilterOut.png" />
                </image>
