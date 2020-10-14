@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.LinkedList;
 
 public class PlantModel
@@ -30,24 +29,15 @@ public class PlantModel
 	{
 		for(int i = 0; i < dimX; i++)
 		{
-			for(int j = 0; j < dimY; j++)
-			{
-				plants[i][j] = new LinkedList<Plant>();
-			}
+			for(int j = 0; j < dimY; j++) {plants[i][j] = new LinkedList<Plant>();}
 		}
 	}
 
 	// Populates the gridPosition variable in the plant and adds a reference to the plant in the local grid
 	private void assignPlantsToGrid()
 	{
-		for(Plant plant : undergrowthPlantList)
-		{
-			plants[(int)plant.getX()][(int)plant.getY()].add(plant);
-		}
-		for(Plant plant : canopyPlantList)
-		{
-			plants[(int)plant.getX()][(int)plant.getY()].add(plant);//changed
-		}
+		for(Plant plant : undergrowthPlantList) {plants[(int)plant.getX()][(int)plant.getY()].add(plant);}
+		for(Plant plant : canopyPlantList) {plants[(int)plant.getX()][(int)plant.getY()].add(plant);}
 	}
 
 	public int getDimX(){return dimX;}

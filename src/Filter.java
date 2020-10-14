@@ -1,16 +1,19 @@
 public class Filter
 {
+	//Class to Filter By: Species, Canopy Radius, Height and Proximity
+	//All filtering is based on a counter on each Plant object that is incremented/decremented when a filter is applied/removed
+
 	//TODO set max and min
-	//TODO check FilterBySPC
 	private float maxHeight, minHeight;
 	private float maxRadius, minRadius;
 	private Plant[] canopy;
 	private Plant[] underGrowth;
 	private Species[] species;
+	private float proxyX; private float proxyY; private float proxyR; private boolean proxyON;
 
-	public Filter(Plant[] c, Plant[] u, Species[] s){canopy = c; underGrowth = u;species = s;minRadius = (float)0.0; maxRadius = (float)16.0;}
+	public Filter(Plant[] c, Plant[] u, Species[] s){canopy = c; underGrowth = u;species = s;minRadius = (float)0.0; maxRadius = (float)20.0;proxyON=false;}
 
-	//Filter functions designed to keep Plant Visibility count accurate
+	//Function called to filter by Radius
 	public void filterByRadius(float minR, float maxR)
 	{
 		if(minR<minRadius){unfilterRLower(minR,minRadius);}
@@ -20,6 +23,7 @@ public class Filter
 		else if(maxR<maxRadius){filterRHigher(maxR, maxRadius);}
 		maxRadius=maxR;
 	}
+	//Function to filter by Height
 	public void filterByHeight(float minH, float maxH)
 	{
 		if(minH<minHeight){unfilterHLower(minH,minHeight);}
@@ -30,33 +34,43 @@ public class Filter
 		maxHeight=maxH;
 	}
 
+	//Function to Filter by Proximity to co-ordinates
 	public void filterByProxy(float x, float y, float prox)
 	{
+		if(proxyON){remFilterByProxy();}
+		proxyX = x;
+		proxyY = y;
+		proxyR = prox;
 		float distance;
-		for(Plant plant: canopy)
-		{
-			distance = (float) Math.sqrt(Math.pow(plant.getX()-x,2)+Math.pow(plant.getY()-y,2));
-			if(distance>prox){plant.incVis();}
+		for (Plant plant : canopy) {
+			distance = (float) Math.sqrt(Math.pow(plant.getX() - x, 2) + Math.pow(plant.getY() - y, 2));
+			if (distance > prox) {
+				plant.incVis();
+			}
 		}
-		for(Plant plant: underGrowth)
-		{
-			distance = (float) Math.sqrt(Math.pow(plant.getX()-x,2)+Math.pow(plant.getY()-y,2));
-			if(distance>prox){plant.incVis();}
+		for (Plant plant : underGrowth) {
+			distance = (float) Math.sqrt(Math.pow(plant.getX() - x, 2) + Math.pow(plant.getY() - y, 2));
+			if (distance > prox) {
+				plant.incVis();
+			}
 		}
+		proxyON = true;
 	}
-	public void remFilterByProxy(float x, float y, float prox)
+	public void remFilterByProxy()
 	{
+		if(!proxyON){System.out.println("Error: No proxy filter to remove"); return;}
 		float distance;
 		for(Plant plant: canopy)
 		{
-			distance = (float) Math.sqrt(Math.pow(plant.getX()-x,2)+Math.pow(plant.getY()-y,2));
-			if(distance>prox){plant.decVis();}
+			distance = (float) Math.sqrt(Math.pow(plant.getX()-proxyX,2)+Math.pow(plant.getY()-proxyY,2));
+			if(distance>proxyR){plant.decVis();}
 		}
 		for(Plant plant: underGrowth)
 		{
-			distance = (float) Math.sqrt(Math.pow(plant.getX()-x,2)+Math.pow(plant.getY()-y,2));
-			if(distance>prox){plant.decVis();}
+			distance = (float) Math.sqrt(Math.pow(plant.getX()-proxyX,2)+Math.pow(plant.getY()-proxyY,2));
+			if(distance>proxyR){plant.decVis();}
 		}
+		proxyON = false;
 	}
 
 	public void filterSpc(int id)
@@ -80,6 +94,9 @@ public class Filter
 		for(int i=startU; i<endU; i++){underGrowth[i].decVis();}
 	}
 
+
+
+	//Functions used by the Canopy and Height filters to maintain Plant counter accuracy
 	private void unfilterRLower(float min,float max)
 	{
 		for(Plant plant: canopy){if(plant.getCanopyRadius()>=min&&plant.getCanopyRadius()<max){plant.decVis();}}

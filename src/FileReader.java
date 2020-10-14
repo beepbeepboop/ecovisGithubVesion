@@ -6,11 +6,11 @@ public class FileReader
 {
 	private File undergrowthF, canopyF, elevationF, speciesF;
 
-	// Used for storing species data
+	// Used for storing species data as it is populated through two files
 	private Species[] species;
 
 
-	//Constructor, assigns files based on path
+	//Constructor, Assigns files to be used with operations
 	public FileReader(String path)
 	{
 		//Get FileNames for reading data

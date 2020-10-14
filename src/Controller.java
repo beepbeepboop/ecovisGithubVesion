@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -29,38 +30,32 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable
 {
 
-	@FXML
-	Group gCanopy;
-	@FXML
-	Group gUnderGrowth;
-	@FXML
-	Pane p1;
-	@FXML
-	Label l1;
-	@FXML
-	Slider sRadLower;
-	@FXML
-	Slider sRadHigher;
-	@FXML
-	ImageView ivBackground;
+	//FXML Variables for UI objects
+	@FXML Group gCanopy;
+	@FXML Group gUnderGrowth;
+	@FXML Pane p1;
+	@FXML Label l1;
+	@FXML Slider sRadLower;
+	@FXML Slider sRadHigher;
+	@FXML ImageView ivBackground;
 
+	//Vars for Scaling and Zooming
 	Scale s = new Scale();
 	final DoubleProperty myScale = new SimpleDoubleProperty(1.0);
-	private Filter filter;
 
-	private ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
+
+	//Data structures to hold file data
+	private ElevationGrid elevationGrid;
 	private Species[] species;
-
 	private Plant[] undergrowthPlants;
 	private Plant[] canopyPlants;
-	PlantModel plantModel;
-	int noSpc;
 
-	ObservableList<Node> canopyNodes;
-	ObservableList<Node> underGrowthNodes;
+	//Data structures used for FireModel and Filtering
+	private Filter filter;
+	private PlantModel plantModel;
+	private FireModel fireModel;
 
-	FireModel fireModel;
-
+	//TODO
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
@@ -71,31 +66,21 @@ public class Controller implements Initializable
 		canopyPlants = fr.getCanopyPlants();
 		undergrowthPlants = fr.getUndergrowthPlants();
 
-		p1.setPrefSize(elevationGrid.getDimX()*elevationGrid.getGridSpacing(),elevationGrid.getDimY()*elevationGrid.getGridSpacing());
-		//System.out.println("Making PlantModel");
-		noSpc = species.length;
+		//Initialize Classes for FireModel and Filtering
 		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, species);
+		filter = new Filter(canopyPlants, undergrowthPlants, species);
+
+		//Initialize Parent Pane and Background
+		p1.setPrefSize(elevationGrid.getDimX()*elevationGrid.getGridSpacing(),elevationGrid.getDimY()*elevationGrid.getGridSpacing());
+		p1.getTransforms().add(s);
 		ivBackground.setImage(elevationGrid.getBackground());
 		ivBackground.fitHeightProperty().bind(p1.heightProperty());
 		ivBackground.fitWidthProperty().bind(p1.widthProperty());
-
-		filter = new Filter(canopyPlants, undergrowthPlants, species);
-		p1.getTransforms().add(s);
-		setSpcColour(noSpc);
+		//Set Default Colours for Species and Draw all the Plants
+		setSpcColour(species.length);
 		initPlantVis();
-		/*
-		System.out.println("Canopy start and amounts:\n");
-		for(int i=0;i<species.length;i++)
-		{
-			System.out.println(i+": "+species[i].getCanopyPos()+" "+species[i].getNumCanopyPlants());
-		}
-		System.out.println("UnderGrowth start and amounts:\n");
-		for(int i=0;i<species.length;i++)
-		{
-			System.out.println(i+": "+species[i].getUnderPos()+" "+species[i].getNumUnderGrowthPlants());
-		}
+
 		//put this into UI calls
-		*/
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
 		fireStart.add(new Coordinate(20,10));
@@ -134,6 +119,8 @@ public class Controller implements Initializable
 		underGrowthNodes = gUnderGrowth.getChildren();
 	}*/
 
+
+	//Initial creation and display of Circles to represent Plants
 	private void initPlantVis()
 	{
 		Plant plant;
@@ -218,6 +205,7 @@ public class Controller implements Initializable
 		}
 	}
 
+	//Attempt at dynamically allocating colours
 	public void setSpcColour(int numSpc)
 	{
 		int inc = 255/(numSpc/2);
@@ -241,6 +229,7 @@ public class Controller implements Initializable
 		for(int i=0; i<numSpc; i++){colours[i]+="32";species[i].setColour(colours[i]);}
 	}
 
+	//Code to enable scrolling
 	public void setOnScroll(ScrollEvent event)
 	{
 		if(event.getDeltaY()>0)
@@ -255,6 +244,7 @@ public class Controller implements Initializable
 				myScale.set(myScale.getValue() / 1.2);
 				//myScale.set(myScale.getValue()-0.15);
 			}
+			else{myScale.set(1.0);}
 		}
 		s.setPivotX((s.getPivotX()+event.getX())/2);
 		s.setPivotY((s.getPivotY()+event.getY())/2);
@@ -262,30 +252,42 @@ public class Controller implements Initializable
 		s.setY(myScale.getValue());
 
 	}
+
+	//Code for Panning
+	//TODO Make this work
+
+	double mX=0.0, mY=0.0;
+	public void panOnDrag(MouseEvent event)
+	{
+		s.setPivotX(s.getPivotX()+(mX-event.getX()));
+		s.setPivotY(s.getPivotY()+(mY-event.getY()));
+	}
+	/*
 	public void panOnDrag(MouseEvent event)
 	{
 		s.setPivotX(event.getX());
 		s.setPivotY(event.getY());
-	}
+	}*/
+	public void mouseHand(MouseEvent event){p1.setCursor(Cursor.CLOSED_HAND);mX=event.getX();mY=event.getY();}
+	public void mousePointer(MouseEvent event){p1.setCursor(Cursor.DEFAULT);}
 
-	public void visStuff(MouseEvent event)
-	{
-		if(event.isControlDown())
-		{
-			gUnderGrowth.setVisible(!gUnderGrowth.isVisible());
-		}
-		else if (event.isAltDown())
-		{
-			gCanopy.setVisible(!gCanopy.isVisible());
-		}
-	}
 
+	//Filter by Radius using two sliders
 	public void updateRadFilter(MouseEvent event)
 	{
 		filter.filterByRadius((float)sRadLower.getValue(), (float)sRadHigher.getValue());
 	}
 
+	//Filter by species using Buttons
+	public void filterBySpecies(ActionEvent event){filter.filterSpc(spcFil);}
+	public void remFilterBySpecies(ActionEvent event){filter.remFilterSpc(spcFil);}
 
+	boolean[] layerFilter = {false, false, false};
+	public void filterBackGround(ActionEvent event){ivBackground.setVisible(layerFilter[0]);layerFilter[0]=!layerFilter[0];}
+	public void filterUnderGrowth(ActionEvent event){gUnderGrowth.setVisible(layerFilter[1]);layerFilter[1]=!layerFilter[1];}
+	public void filterCanopy(ActionEvent event){gCanopy.setVisible(layerFilter[2]);layerFilter[2]=!layerFilter[2];}
+
+	//Yeet these methods
 	int spcFil = 0;
 	public void filterInc(ActionEvent event)
 	{
@@ -301,18 +303,8 @@ public class Controller implements Initializable
 		l1.setText(String.valueOf(spcFil));
 	}
 
-	public void filter(ActionEvent event){filter.filterSpc(spcFil);}
-	public void remFilter(ActionEvent event){filter.remFilterSpc(spcFil);}
-	public void filterRad(float min, float max){filter.filterByRadius(min,max);}
-
-	boolean[] layerFilter = {false, false, false};
-	public void filterBackGround(ActionEvent event){ivBackground.setVisible(layerFilter[0]);layerFilter[0]=!layerFilter[0];}
-	public void filterUnderGrowth(ActionEvent event){gUnderGrowth.setVisible(layerFilter[1]);layerFilter[1]=!layerFilter[1];}
-	public void filterCanopy(ActionEvent event){gCanopy.setVisible(layerFilter[2]);layerFilter[2]=!layerFilter[2];}
-
-	//Yeet these methods
 	boolean proxFilterBool = true;
-	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy((float)75, (float)75, (float)25);proxFilterBool=true;}}
+	public void filterProx(ActionEvent event){if(proxFilterBool){filter.filterByProxy((float)75, (float)75, (float)25);proxFilterBool=false;}else{filter.remFilterByProxy();proxFilterBool=true;}}
 
 
 	public void f0(ActionEvent event){fireColour(1);}
