@@ -4,14 +4,14 @@ import java.util.LinkedList;
 public class PlantModel
 {
 	private ElevationGrid elevationGrid;
-	private LinkedList<Plant> undergrowthPlantList;
-	private LinkedList<Plant> canopyPlantList;
+	private Plant[] undergrowthPlantList;
+	private Plant[] canopyPlantList;
 	private Species[] species;
 	private LinkedList<Plant>[][] plants;
 	private int dimX, dimY;
 	private float gridSpacing;
 
-	public PlantModel(ElevationGrid elevGrid, LinkedList<Plant> undergrowthPlants, LinkedList<Plant> canopyPlants, Species[] s)
+	public PlantModel(ElevationGrid elevGrid, Plant[] undergrowthPlants, Plant[] canopyPlants, Species[] s)
 	{
 		elevationGrid = elevGrid;
 		undergrowthPlantList = undergrowthPlants;

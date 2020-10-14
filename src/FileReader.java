@@ -41,8 +41,8 @@ public class FileReader
 
 
 	// Read and return file data
-	public LinkedList<Plant> getUndergrowthPlants(){System.out.println("Reading undergrowth plants file");return readPdb(undergrowthF);}
-	public LinkedList<Plant> getCanopyPlants(){System.out.println("Reading canopy plants file");return readPdb(canopyF);}
+	public Plant[] getUndergrowthPlants(){System.out.println("Reading undergrowth plants file");return readPdb(undergrowthF);}
+	public Plant[] getCanopyPlants(){System.out.println("Reading canopy plants file");return readPdb(canopyF);}
 	public Species[] getSpecies(){System.out.println("Reading Spc File");readSpc(); return species;}
 	public ElevationGrid getElevation(){System.out.println("Reading Elevation File");return readElv(elevationF);}
 
@@ -72,10 +72,10 @@ public class FileReader
 
 	//Read in a plant file and return a Linked List of plants
 	//Plant: int speciesID, float x, y, z, height, canopyRadius
-	public LinkedList<Plant> readPdb(File file)
+	public Plant[] readPdb(File file)
 	{
 		int spcPos = 0;
-		LinkedList<Plant> ret = new LinkedList<Plant>();
+		LinkedList<Plant> tempList = new LinkedList<Plant>();
 		boolean canopy = file.getName().contains("canopy");
 		try
 		{    
@@ -105,7 +105,7 @@ public class FileReader
 					zPos = line.nextFloat();
 					height = line.nextFloat();
 					radius = line.nextFloat();
-					ret.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
+					tempList.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
 				}
 			}
 			line.close();
@@ -115,7 +115,9 @@ public class FileReader
 		{
 			System.out.println(e);
 		}
-		return ret;
+		Plant[] retPlants = new Plant[tempList.size()];
+		retPlants = tempList.toArray(retPlants);
+		return retPlants;
 	}
 
 

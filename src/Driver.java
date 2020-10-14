@@ -8,8 +8,8 @@ public class Driver
 	//Store Terrain Data in an ElevationGrid & Plant Data in Vectors
 	private static ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
 	private static Species[] species;
-	private static LinkedList<Plant> undergrowthPlants;
-	private static LinkedList<Plant> canopyPlants;
+	private static Plant[] undergrowthPlants;
+	private static Plant[] canopyPlants;
 	private static FireModel fireModel;
 	private static PlantModel plantModel;
 

@@ -68,34 +68,22 @@ public class Controller implements Initializable
 		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
-		LinkedList<Plant> undergrowthPlantsList;
-		LinkedList<Plant> canopyPlantsList;
-		canopyPlantsList = fr.getCanopyPlants();
-		undergrowthPlantsList = fr.getUndergrowthPlants();
-		undergrowthPlants = new Plant[undergrowthPlantsList.size()];
-		undergrowthPlants = undergrowthPlantsList.toArray(undergrowthPlants);
-		canopyPlants = new Plant[canopyPlantsList.size()];
-		canopyPlants = canopyPlantsList.toArray(canopyPlants);
-
-
+		canopyPlants = fr.getCanopyPlants();
+		undergrowthPlants = fr.getUndergrowthPlants();
 
 		p1.setPrefSize(elevationGrid.getDimX()*elevationGrid.getGridSpacing(),elevationGrid.getDimY()*elevationGrid.getGridSpacing());
 		//System.out.println("Making PlantModel");
 		noSpc = species.length;
-		plantModel = new PlantModel(elevationGrid, undergrowthPlantsList, canopyPlantsList, species);
+		plantModel = new PlantModel(elevationGrid, undergrowthPlants, canopyPlants, species);
 		ivBackground.setImage(elevationGrid.getBackground());
 		ivBackground.fitHeightProperty().bind(p1.heightProperty());
 		ivBackground.fitWidthProperty().bind(p1.widthProperty());
 
-		/*
-		ivBackground.setFitHeight(elevationGrid.getDimX()*elevationGrid.getGridSpacing());
-		ivBackground.setFitWidth(elevationGrid.getDimY()*elevationGrid.getGridSpacing());*/
-
 		filter = new Filter(canopyPlants, undergrowthPlants, species);
 		p1.getTransforms().add(s);
-		setSpcColour();
+		setSpcColour(noSpc);
 		initPlantVis();
-
+		/*
 		System.out.println("Canopy start and amounts:\n");
 		for(int i=0;i<species.length;i++)
 		{
@@ -107,12 +95,12 @@ public class Controller implements Initializable
 			System.out.println(i+": "+species[i].getUnderPos()+" "+species[i].getNumUnderGrowthPlants());
 		}
 		//put this into UI calls
-		/*
+		*/
 		fireModel = new FireModel(plantModel);
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
 		fireStart.add(new Coordinate(20,10));
 		System.out.println("Computing Firemodel");
-		fireModel.computeSpread(10, fireStart, 3);*/
+		fireModel.computeSpread(10, fireStart, 3);
 	}
 
 	//ERROR with storing plant ID it seems
@@ -228,6 +216,29 @@ public class Controller implements Initializable
 			}
 			species[i].setColour(co);
 		}
+	}
+
+	public void setSpcColour(int numSpc)
+	{
+		int inc = 255/(numSpc/2);
+		String[] colours = new String[numSpc];
+		for(int i=0; i<numSpc; i++){colours[i]="#00";}
+		String temp;
+		for(int i=0; i<numSpc; i+=2)
+		{
+			colours[i]+="ff";
+			temp=Integer.toHexString(inc*(i/2));
+			if(temp.length()==1){temp="0"+temp;}
+			colours[i]+=temp;
+		}
+		for(int i=1; i<numSpc; i+=2)
+		{
+			temp=Integer.toHexString(inc*(i/2));
+			if(temp.length()==1){temp="0"+temp;}
+			colours[i]+=temp;
+			colours[i]+="ff";
+		}
+		for(int i=0; i<numSpc; i++){colours[i]+="32";species[i].setColour(colours[i]);}
 	}
 
 	public void setOnScroll(ScrollEvent event)
