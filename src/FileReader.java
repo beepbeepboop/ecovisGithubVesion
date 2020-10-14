@@ -6,11 +6,11 @@ public class FileReader
 {
 	private File undergrowthF, canopyF, elevationF, speciesF;
 
-	// Used for storing species data
+	// Used for storing species data as it is populated through two files
 	private Species[] species;
 
 
-	//Constructor, assigns files based on path
+	//Constructor, Assigns files to be used with operations
 	public FileReader(String path)
 	{
 		//Get FileNames for reading data
@@ -41,8 +41,8 @@ public class FileReader
 
 
 	// Read and return file data
-	public LinkedList<Plant> getUndergrowthPlants(){System.out.println("Reading undergrowth plants file");return readPdb(undergrowthF);}
-	public LinkedList<Plant> getCanopyPlants(){System.out.println("Reading canopy plants file");return readPdb(canopyF);}
+	public Plant[] getUndergrowthPlants(){System.out.println("Reading undergrowth plants file");return readPdb(undergrowthF);}
+	public Plant[] getCanopyPlants(){System.out.println("Reading canopy plants file");return readPdb(canopyF);}
 	public Species[] getSpecies(){System.out.println("Reading Spc File");readSpc(); return species;}
 	public ElevationGrid getElevation(){System.out.println("Reading Elevation File");return readElv(elevationF);}
 
@@ -62,7 +62,7 @@ public class FileReader
 				int speciesId = line.nextInt();
 				String commonName = line.next().replace("”", "");
 				String latinName = line.next().replace("”", "");
-				spc.add(new Species(commonName, latinName));
+				spc.add(new Species(speciesId, commonName, latinName));
 			}
 			species = spc.toArray(new Species[0]);
 			f.close();
@@ -72,9 +72,10 @@ public class FileReader
 
 	//Read in a plant file and return a Linked List of plants
 	//Plant: int speciesID, float x, y, z, height, canopyRadius
-	public LinkedList<Plant> readPdb(File file)
+	public Plant[] readPdb(File file)
 	{
-		LinkedList<Plant> ret = new LinkedList<Plant>();
+		int spcPos = 0;
+		LinkedList<Plant> tempList = new LinkedList<Plant>();
 		boolean canopy = file.getName().contains("canopy");
 		try
 		{    
@@ -82,28 +83,20 @@ public class FileReader
 			Scanner line = new Scanner(f.nextLine()).useLocale(Locale.US);
 			int numSpecies = line.nextInt();
 			int speciesId, numPlants;
-			float minHeight, maxHeight, heightRatio;
 			for(int i = 0; i < numSpecies; i++)
 			{
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
 				speciesId = line.nextInt();
-				minHeight = line.nextFloat();
-				maxHeight = line.nextFloat();
-				heightRatio = line.nextFloat();
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);
 				numPlants = line.nextInt();
 
-
 				//PopulateSpeciesData
-				species[i].populateSpc(speciesId, minHeight, maxHeight, heightRatio);
-				if(canopy){species[i].setCanopyPos(ret.size());species[i].setNumCanopyPlants(numPlants);}
-				else{species[i].setUnderPos(ret.size());species[i].setNumUnderGrowthPlantsPlants(numPlants);}
+				if(canopy){species[i].setCanopyPos(spcPos);species[i].setNumCanopyPlants(numPlants);}
+				else{species[i].setUnderPos(spcPos);species[i].setNumUnderGrowthPlantsPlants(numPlants);}
+				spcPos += numPlants;
 
-				float xPos;
-				float yPos;
-				float zPos;
-				float height;
-				float radius;
+				float xPos, yPos, zPos;
+				float height, radius;
 				for(int j = 0; j < numPlants; j++)
 				{
 					line = new Scanner(f.nextLine()).useLocale(Locale.US);
@@ -112,7 +105,7 @@ public class FileReader
 					zPos = line.nextFloat();
 					height = line.nextFloat();
 					radius = line.nextFloat();
-					ret.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
+					tempList.add(new Plant(speciesId, xPos, yPos, zPos, height, radius));
 				}
 			}
 			line.close();
@@ -122,7 +115,9 @@ public class FileReader
 		{
 			System.out.println(e);
 		}
-		return ret;
+		Plant[] retPlants = new Plant[tempList.size()];
+		retPlants = tempList.toArray(retPlants);
+		return retPlants;
 	}
 
 
@@ -141,7 +136,7 @@ public class FileReader
 			float latitude = line.nextFloat();
 
 			elevGrid = new ElevationGrid(dimX,dimY,gridSpacing,latitude);
-			float elevation,minHeight=1000000000,maxHeight=0;    //fix to float max later look for max float value
+			float elevation,minHeight=Float.MAX_VALUE,maxHeight=0;
 			for(int x = 0; x < dimX; x++)
 			{
 				line = new Scanner(f.nextLine()).useLocale(Locale.US);

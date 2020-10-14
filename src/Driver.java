@@ -8,14 +8,14 @@ public class Driver
 	//Store Terrain Data in an ElevationGrid & Plant Data in Vectors
 	private static ElevationGrid elevationGrid; //Will basically just need this data to produce a background image, then it can be yeeted
 	private static Species[] species;
-	private static LinkedList<Plant> undergrowthPlants;
-	private static LinkedList<Plant> canopyPlants;
+	private static Plant[] undergrowthPlants;
+	private static Plant[] canopyPlants;
 	private static FireModel fireModel;
 	private static PlantModel plantModel;
 
 	public static void main(String[] args) 
 	{
-		FileReader fr = new FileReader("C:\\Users\\iamsu\\IdeaProjects\\ecovis\\ecovis\\data");	//If this is in a directory above then you're storing files incorrectly
+		FileReader fr = new FileReader("./data/");	//If this is in a directory above then you're storing files incorrectly
 		//System.out.println(fr.toString());
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
@@ -47,6 +47,6 @@ public class Driver
 		System.out.println(fireModel);
 		System.out.println("firemodel is printed");
 
-		Application.launch(Main.class,args);  //this is the code that calls the UI
+		//Application.launch(EcovisMainUI.class,args);  //this is the code that calls the UI
 	}
 }
