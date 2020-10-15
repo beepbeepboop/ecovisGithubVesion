@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -59,7 +60,11 @@ public class Controller implements Initializable
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
 		//Read Files into Classes
-		FileReader fr = new FileReader("C:\\Users\\jordan\\IdeaProjects\\EcoVis\\data");
+		String path = "C:\\Users\\iamsu\\IdeaProjects\\ecovis\\ecovis\\data";//Declan and Jordan have to fight over this every time
+		//C:\Users\iamsu\IdeaProjects\ecovis\ecovis\data
+		//C:\Users\jordan\IdeaProjects\EcoVis\data
+		FileReader fr = new FileReader(path);
+
 		species = fr.getSpecies();
 		elevationGrid = fr.getElevation();
 		canopyPlants = fr.getCanopyPlants();
@@ -84,8 +89,12 @@ public class Controller implements Initializable
 		LinkedList<Coordinate> fireStart = new LinkedList<Coordinate>();
 		fireStart.add(new Coordinate(180,60));
 		fireStart.add(new Coordinate(200, 100));
-		fireStart.add(new Coordinate(600, 600));
-		fireStart.add(new Coordinate(800, 200));
+		if(!fr.getListOfFiles(path).contains("256")) { //checks to see if it's a small boi file
+			fireStart.add(new Coordinate(500, 500)); //For medium to big boi files only
+		}
+		if(fr.getListOfFiles(path).contains("1024")) { //checks to see if it's the biggest boi file
+			fireStart.add(new Coordinate(800, 200)); //For big boi files only
+		}
 		System.out.println("Computing Firemodel");
 		fireModel.computeSpread(400, fireStart, 3);
 
